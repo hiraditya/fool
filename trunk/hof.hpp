@@ -40,4 +40,10 @@ namespace fool{
         });
     return s;
   }
+
+  template<typename function, typename sequence>
+  inline sequence& FoF(function &f, sequence &s)
+  {
+    return FMap(f,FMap(f,s));
+  }
 }
