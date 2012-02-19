@@ -1,22 +1,39 @@
 /// \brief provide the cons function for a sequence
 /// the sequence must have a begin and an end
 /// and the value type
-#ifndef FOOL_CAR
-#define FOOL_CAR
+#ifndef FOOL_CONS_HPP
+#define FOOL_CONS_HPP
 #include<iterator>
 #include<algorithm>
 namespace fool {
+  /// returns reference to the first element of the sequence
   template<typename sequence>
   typename sequence::value_type& car(sequence& s)
   {
     return *begin(s);
   }
-
+/*
+  /// returns a copy of the first element of the sequence
+  template<typename sequence>
+  typename sequence::value_type car(sequence& s) const
+  {
+    return *begin(s);
+  }
+*/
+  /// returns a reference to the first element of the first element of the sequence_of_sequences
   template<typename sequence_of_sequences>
   typename sequence_of_sequences::value_type::value_type& caar(sequence_of_sequences& sos)
   {
     return *begin(*begin(sos));
   }
+/*
+  /// returns a copy of the first element of the first element of the sequence_of_sequences
+  template<typename sequence_of_sequences>
+  typename sequence_of_sequences::value_type::value_type caar(sequence_of_sequences& sos) const
+  {
+    return *begin(*begin(sos));
+  }
+*/ 
   //returning by value
   //relying on the move-semantics of c++11
   //will not work for arrays for now
@@ -40,7 +57,7 @@ namespace fool {
   template<typename sequence>
   typename sequence::value_type& cadr(sequence& s)
   {
-    return begin(cdr_no_copy(s));
+    return *begin(cdr_no_copy(s));
   }
 
   //returning by value, relying on the move semantics of c++11
@@ -53,5 +70,5 @@ namespace fool {
     return s_cons;
   }
 }
-#endif // FOOL_CAR
+#endif // FOOL_CONS_HPP
 
