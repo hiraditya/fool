@@ -1,9 +1,13 @@
 /*
- * This header file defines the interfaces for the file_map libray 
- * 
+ *  This header file defines the interfaces for the file_map libray 
+ *  @author Shardul Vikram, Aditya Kumar 
  *
- *
+ *  This file is distributed under the MIT License. See 
+ *  LICENCE.txt attached with this project or visit
+ *  http://www.opensource.org/licenses/mit-license.php 
+ *  for terms and conditions.
  */
+
 #ifndef FILEMAP_HPP
 #define FILEMAP_HPP
 
