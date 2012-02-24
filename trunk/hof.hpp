@@ -1,6 +1,13 @@
-// This file is distributed under the MIT License. See http://www.opensource.org/licenses/mit-license.php 
-// for terms and conditions.
-//
+/*
+ *  @author Aditya Kumar 
+ *
+ *  This file is distributed under the MIT License. See 
+ *  LICENCE.txt attached with this project or visit
+ *  http://www.opensource.org/licenses/mit-license.php 
+ *  for terms and conditions.
+ */
+
+
 // Higher-order functions (HOFs) are functions that take other functions as their arguments. 
 // A basic example of a HOF is map which takes a function and a list as its arguments, applies 
 // the function to all elements of the list, and returns the list of its results. 

@@ -1,8 +1,22 @@
+/*
+ *  @author Aditya Kumar 
+ *
+ *  This file is distributed under the MIT License. See 
+ *  LICENCE.txt attached with this project or visit
+ *  http://www.opensource.org/licenses/mit-license.php 
+ *  for terms and conditions.
+ */
+
+
+
 /// \brief provide the cons function for a sequence
 /// the sequence must have a begin and an end
 /// and the value type
 #ifndef FOOL_CONS_HPP
 #define FOOL_CONS_HPP
+
+#include "find_size.hpp"
+
 #include<iterator>
 #include<algorithm>
 namespace fool {
@@ -42,7 +56,7 @@ namespace fool {
   template<typename sequence>
   sequence cdr(sequence& s)
   {
-    sequence s_copy(s.size()-1);
+    sequence s_copy(find_size(s)-1);
     std::copy(++begin(s),end(s),begin(s_copy));
     return s_copy;
   }
@@ -64,7 +78,7 @@ namespace fool {
   template<typename sequence>
   sequence cons(typename sequence::value_type v, sequence& s)
   {
-    sequence s_cons(s.size()+1);
+    sequence s_cons(find_size(s)+1);
     *(std::begin(s_cons)) = v;
     std::copy(begin(s),end(s),++begin(s_cons));
     return s_cons;
