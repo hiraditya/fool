@@ -56,10 +56,10 @@ public:
     { 
       //CompilerInstance* pci = new CompilerInstance;
     }
-    virtual ~MyASTConsumer() 
+    ~MyASTConsumer() 
     { 
-      //delete astConsumer;
       //delete track_macro;
+      //track_macro=NULL;
     }
 
     virtual bool HandleTopLevelDecl(clang::DeclGroupRef d);
@@ -80,6 +80,7 @@ bool MyASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef d)
     count++;
     VarDecl *vd = llvm::dyn_cast<clang::VarDecl>(*it);
     FunctionDecl *fd = llvm::dyn_cast<clang::FunctionDecl>(*it);
+    /// can be extended for class declaration
     if(fd){
       PrintSourceLocation(fd);
     }
@@ -184,6 +185,7 @@ int MyASTConsumer::Initialize(CompilerInstance& ci)
 
 /// pass the callback function    
     track_macro = new TrackMacro;
+    track_macro->SetCompilerInstance(pci);
     PP.addPPCallbacks(track_macro);
 ///
     return 0;
@@ -193,8 +195,15 @@ void MyASTConsumer::DumpContent(std::string const& file_name)
 {
   CompilerInstance& ci = *pci;
   current_file = file_name;
+
+  //std::cout<<"Current file name in AST comsumer is: "<<current_file;
   const FileEntry *pFile = ci.getFileManager().getFile(file_name.c_str());
   ci.getSourceManager().createMainFileID(pFile);
+  // set file and loc parameters for the track_macro callback
+  // placing here is important. It should be after the source manager 
+  // has created fileid for the file to be processed.
+  track_macro->SetFileName(current_file);
+  ///////////////////////////////////////////////////////////
   ci.getDiagnosticClient().BeginSourceFile(ci.getLangOpts(),
                                             &ci.getPreprocessor());
   clang::ParseAST(ci.getPreprocessor(), this, ci.getASTContext());
