@@ -1,7 +1,8 @@
-#include <iostream>
-#include <string>
 
+#include "map_utils.hpp"
+#include "FunctionInfo.h"
 #include "TrackMacro.hpp"
+
 #include "llvm/Support/Host.h"
 
 #include "clang/AST/ASTContext.h"
@@ -17,13 +18,16 @@
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendOptions.h"
 #include "clang/Frontend/Utils.h"
-
+#include "clang/Frontend/LangStandard.h"
 
 #include "clang/Lex/Preprocessor.h"
 #include "clang/Lex/HeaderSearch.h"
 
 #include "clang/Parse/Parser.h"
 #include "clang/Parse/ParseAST.h"
+
+#include <iostream>
+#include <string>
 
 using clang::CompilerInstance;
 using clang::TargetOptions;
@@ -45,12 +49,6 @@ using clang::TrackMacro;
  *****************************************************************************/
 class MyASTConsumer : public clang::ASTConsumer
 {
-private:
-    CompilerInstance *pci;
-    MyASTConsumer *astConsumer;
-    TrackMacro* track_macro;
-    std::string current_file;
-
 public:
     MyASTConsumer() : clang::ASTConsumer() 
     { 
@@ -67,8 +65,24 @@ public:
     void DumpContent(std::string const& file_name);
     void PrintSourceLocation(FunctionDecl* fd);
     void PrintSourceLocation(SourceManager& sm, SourceLocation loc);
+    void PrintStats();
+    void VerifyMacroScope();
+
+private:
+    CompilerInstance *pci;
+    MyASTConsumer *astConsumer;
+    TrackMacro* track_macro;
+    std::string current_file;
+    std::map<std::string, Info> FunctionInfo;  
 };
 
+std::ostream& operator<<(std::ostream& os,const Info& inf)
+{
+  os<<inf.start_line;
+  os<<"\t"<<inf.end_line;
+  return os;
+}
+    
 bool MyASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef d)
 {
   int count = 0;
@@ -111,7 +125,7 @@ int MyASTConsumer::Initialize(CompilerInstance& ci)
     ci.createDiagnostics(0,NULL);
     TargetOptions to;
     /// set the language to c++98
-    ci.getInvocation().setLangDefaults(clang::InputKind::IK_CXX);
+    ci.getInvocation().setLangDefaults(clang::InputKind::IK_CXX, clang::LangStandard::lang_cxx11);
 
 //    if(ci.getInvocation().getLangOpts()->CPlusPlus)
 //      std::cout<<"c++ is defined now";
@@ -135,7 +149,6 @@ int MyASTConsumer::Initialize(CompilerInstance& ci)
     Preprocessor& PP = ci.getPreprocessor();
     HeaderSearchOptions& HSOpts = ci.getHeaderSearchOpts();
     
-
 /** 
  * \brief Adding the directory path for the compiler to search
  * AddPath (StringRef Path, frontend::IncludeDirGroup Group, 
@@ -143,6 +156,10 @@ int MyASTConsumer::Initialize(CompilerInstance& ci)
  * bool IsInternal=false, bool ImplicitExternC=false)
 */  
 /// General includes
+    HSOpts.AddPath("/media/space/opt_149739_build/lib/clang/3.1/include",
+              clang::frontend::Angled,
+              false,    false,    false);
+    
     HSOpts.AddPath("/usr/include",
               clang::frontend::Angled,
               false,    false,    false);
@@ -167,12 +184,11 @@ int MyASTConsumer::Initialize(CompilerInstance& ci)
     HSOpts.AddPath("/usr/include/c++/4.6/i686-linux-gnu/64",
               clang::frontend::Angled,
               false,    false,    false);
-    
 /// gcc specific includes
-    HSOpts.AddPath("/usr/lib/gcc/i686-linux-gnu/4.6.1",
+/*    HSOpts.AddPath("/usr/lib/gcc/i686-linux-gnu/4.6.1/include",
               clang::frontend::Angled,
               false,    false,    false);
-    
+  */  
     FrontendOptions& FEOpts = ci.getFrontendOpts();
 
     PP.getBuiltinInfo().InitializeBuiltins(PP.getIdentifierTable(),
@@ -212,56 +228,46 @@ void MyASTConsumer::DumpContent(std::string const& file_name)
 
 void MyASTConsumer::PrintSourceLocation(SourceManager& sm, SourceLocation loc)
 {
-  //  SourceLocation instantiation = sm.getInstantiationLoc(loc);
-  //  SourceLocation spelling = sm.getSpellingLoc(loc);
-#define PRINT_LOC(name, head) \
-  do { \
-    printf(head "%s  " #name ": {\n", indent.c_str()); \
-    printf("%s    file: \"%s\",\n", indent.c_str(), \
-      cgiEscape(sm.getBufferName(name)).c_str()); \
-    pair<FileID, unsigned> lpair = sm.getDecomposedLoc(name); \
-    printf("%s    line: %d,\n", indent.c_str(), \
-      sm.getLineNumber(lpair.first, lpair.second)); \
-    printf("%s    column: %d,\n", indent.c_str(), \
-      sm.getColumnNumber(lpair.first, lpair.second)); \
-    printf("%s  }", indent.c_str()); \
-  } while(false)
-/*  PRINT_LOC(instantiation, "");
-  if (spelling != instantiation)
-    PRINT_LOC(spelling, ",\n");*/
-#undef PRINT_LOC
-
     clang::PresumedLoc presumed = sm.getPresumedLoc(loc);
-//  if (presumed.getLine() != sm.getInstantiationLineNumber(loc)) {
-//    printf(",\n%s  presumed: {\n", indent.c_str());
-//    printf("%s    file: \"%s\",\n", indent.c_str(), presumed.getFilename());
     /// print only when the functions are in the current file
     if(current_file == presumed.getFilename()) {
       std::cout<<"line: "<<presumed.getLine();
       std::cout<<", column: "<<presumed.getColumn();
     }
-//    printf("%s  }", indent.c_str());
-//  }
-//  printf("\n%s}", indent.c_str());
 }
 
 void MyASTConsumer::PrintSourceLocation(FunctionDecl* fd)
 {
   using namespace clang;
+  Info inf;
   SourceManager& sm = pci->getSourceManager();  
   PresumedLoc presumed = sm.getPresumedLoc(fd->getSourceRange().getBegin());
     /// print only when the functions are in the current file
   if(current_file == presumed.getFilename()) {
-    std::cout<<"Function declaration with name: "<<fd->getNameInfo().getAsString()<<"\n";
-    //std::cout<<"\nCurrent file" << current_file;
-    //std::cout<<"\nPresumed file"<<presumed.getFilename();
+/*    std::cout<<"Function declaration with name: "<<fd->getNameInfo().getAsString()<<"\n";
     std::cout<<"Start:\t";
     std::cout<<"line: "<<presumed.getLine();
     std::cout<<", column: "<<presumed.getColumn();
     presumed = sm.getPresumedLoc(fd->getSourceRange().getEnd());
     std::cout<<"\nEnd:\t";    
     std::cout<<"line: "<<presumed.getLine();
-    std::cout<<", column: "<<presumed.getColumn();
+    std::cout<<", column: "<<presumed.getColumn();*/
+    inf.start_line = presumed.getLine();
+    presumed = sm.getPresumedLoc(fd->getSourceRange().getEnd());
+    inf.end_line = presumed.getLine();
+    FunctionInfo[fd->getNameInfo().getAsString()] = inf;
   }
-  std::cout<<"\n";  
+}
+
+void MyASTConsumer::PrintStats()
+{
+  using namespace general_utilities;
+  std::cout<<FunctionInfo;
+  track_macro->PrintStats();
+}
+
+void MyASTConsumer::VerifyMacroScope()
+{
+  track_macro->VerifyMacroScope(FunctionInfo);
+  track_macro->VerifyMacroScopeFast(FunctionInfo);
 }
