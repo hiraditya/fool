@@ -10,5 +10,8 @@ int main(int argc, char** argv)
   MyASTConsumer astConsumer;
   astConsumer.Initialize(*pci);
   astConsumer.DumpContent(argv[1]);
+  astConsumer.PrintStats();
+  astConsumer.VerifyMacroScope();
+  //delete pci;
   return 0;
 }
