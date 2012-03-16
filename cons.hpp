@@ -9,9 +9,6 @@
 
 
 
-/// \brief provide the cons function for a sequence
-/// the sequence must have a begin and an end
-/// and the value type
 #ifndef FOOL_CONS_HPP
 #define FOOL_CONS_HPP
 
@@ -20,9 +17,12 @@
 #include<iterator>
 #include<algorithm>
 namespace fool {
+  /// \brief car stands for Contents of the Address part of Register number
+  /// essentially it returns first element of the list
   /// returns reference to the first element of the sequence
   template<typename sequence>
-  typename sequence::value_type& car(sequence& s)
+  typename sequence::value_type& 
+  car(sequence& s)
   {
     return *begin(s);
   }
@@ -34,9 +34,13 @@ namespace fool {
     return *begin(s);
   }
 */
+
+  /// TODO: check if the argument is actually a sequence of sequence or not.
+  /// \brief caar stands for car(car s)
   /// returns a reference to the first element of the first element of the sequence_of_sequences
   template<typename sequence_of_sequences>
-  typename sequence_of_sequences::value_type::value_type& caar(sequence_of_sequences& sos)
+  typename sequence_of_sequences::value_type::value_type& 
+  caar(sequence_of_sequences& sos)
   {
     return *begin(*begin(sos));
   }
@@ -53,6 +57,10 @@ namespace fool {
   //will not work for arrays for now
   //FIXME: find out how it will work for arrays 
   //i.e. how to find if there is no size() member function
+  
+  /// \brief cdr stands for "Contents of the Decrement part of Register number"
+  /// essentially cdr will return the elements of the list except for the
+  /// first one
   template<typename sequence>
   sequence cdr(sequence& s)
   {
@@ -62,21 +70,32 @@ namespace fool {
   }
   
   //returns the reference to the second element of the sequence
+  /// \brief cdr stands for "Contents of the Decrement part of Register number"
+  /// essentially cdr will return the elements of the list except for the
+  /// first one
   template<typename sequence>
-  typename sequence::iterator cdr_no_copy(sequence& s)
+  typename sequence::iterator 
+  cdr_no_copy(sequence& s)
   {
     return ++std::begin(s);
   }
   
+  /// \brief cadr stands for car(cdr s)
+  /// returns the result
   template<typename sequence>
-  typename sequence::value_type& cadr(sequence& s)
+  typename sequence::value_type& 
+  cadr(sequence& s)
   {
     return *begin(cdr_no_copy(s));
   }
 
-  //returning by value, relying on the move semantics of c++11
+  /// \brief provide the cons function for a sequence
+  /// the sequence must have a begin and an end
+  /// and the value type
+  // \note returning by value, relying on the move semantics of c++11
   template<typename sequence>
-  sequence cons(typename sequence::value_type v, sequence& s)
+  sequence 
+  cons(typename sequence::value_type v, sequence& s)
   {
     sequence s_cons(find_size(s)+1);
     *(std::begin(s_cons)) = v;

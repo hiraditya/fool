@@ -38,6 +38,9 @@
 //The typename function should be a function object
 //The typename sequence should be a sequence type
 namespace fool{
+  /// \brief applies function 'f' to each element 
+  /// of the sequence 's'
+  /// returns resulting sequence
   template<typename function, typename sequence>
   sequence& FMap(function &f,sequence &s)
   {
@@ -48,6 +51,9 @@ namespace fool{
     return s;
   }
 
+  /// \brief apply function 'f' to sequence 's', and then 
+  /// again apply the function on the result.
+  /// returns resulting sequence.
   template<typename function, typename sequence>
   inline sequence& FoF(function &f, sequence &s)
   {
