@@ -1,3 +1,12 @@
+/*
+ *  @author Aditya Kumar 
+ *
+ *  This file is distributed under the MIT License. See 
+ *  LICENCE.txt attached with this project or visit
+ *  http://www.opensource.org/licenses/mit-license.php 
+ *  for terms and conditions.
+ */
+
 #ifndef MUTEX_HPP
 #define MUTEX_HPP
 
