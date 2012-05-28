@@ -1,5 +1,18 @@
 #ifndef UTILS_SET_HPP
 #define UTILS_SET_HPP
+/*
+ *  @author Aditya Kumar 
+ *
+ *  This file is distributed under the MIT License. See 
+ *  LICENCE.txt attached with this project or visit
+ *  http://www.opensource.org/licenses/mit-license.php 
+ *  for terms and conditions.
+ */
+
+
+
+
+
 #include<iostream>
 #include<iterator>
 #include<set>
