@@ -73,7 +73,7 @@ namespace containers{
   element_type Stack<element_type, container_type>::top() const
   {
     if(elems.empty())
-      throw std::out_of_range("Stack<>::pop: empty stack");
+      throw std::out_of_range("Stack<>::top: empty stack");
     
     return elems.back();//copy of the last element
   }
