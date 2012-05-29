@@ -129,10 +129,14 @@ namespace containers{
 
       //However, there is operator[] to access elements of the queue
       //the first element is accessed as q[0], the second q[1] etc.
-      element_type& operator[](size_t i);
-     
+      //this function has been added just to facilitate
+      //access elements without modifying them
       element_type const& operator[](size_t i) const;
-
+      
+      //implemented but uncommented because this function 
+      //does not reflect the semantics of a queue
+      //element_type& operator[](size_t i);
+     
     private:
       
       //one extra element for book keeping
@@ -203,6 +207,7 @@ namespace containers{
     return num_elems == 0;
   }
 
+/*
   template<typename element_type, size_t container_size>
   element_type& 
   SmallQueue<element_type, container_size>::operator[](size_t i)
@@ -212,6 +217,7 @@ namespace containers{
 
     return elems[(i1+i)%container_size]; 
   }
+*/
 
   template<typename element_type, size_t container_size>
   element_type const& 
