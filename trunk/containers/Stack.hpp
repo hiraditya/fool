@@ -31,12 +31,18 @@ namespace containers{
       element_type pop();
       element_type top() const;
       bool empty() const;
+      
+      element_type const& operator[](size_t i) const
+      { return elems[i]; }
 
+      /*
+       * not actually useful
       typename container_type::const_iterator begin() const 
       { return elems.begin(); }
       
       typename container_type::const_iterator end() const
       { return elems.end(); }
+      */
 
       size_t size() const
       { return elems.size(); }
@@ -88,13 +94,13 @@ namespace containers{
   template<typename element_type, typename container_type>
   std::ostream& operator<<(std::ostream& os, Stack<element_type, container_type> const& s)
   {
-    /*
-    for(auto i = s.begin(); i!= s.end(); ++i){
-        os<<*i;
+    
+    for(size_t i = 0; i!= s.size(); ++i){
+        os<<s[i];
         os<<"\n";
-    }*/
+    }
 
-    std::copy(s.begin(),s.end(), std::ostream_iterator<element_type>(os, "\n"));
+    //std::copy(s.begin(),s.end(), std::ostream_iterator<element_type>(os, "\n"));
     return os;
   }
   
@@ -119,13 +125,16 @@ namespace containers{
       const element_type* begin() const 
       { return &elems[0]; }
 
+      element_type const& operator[](size_t i) const
+      { return elems[i]; }
+
       //even when the number of elements is zero there will be at least 
       //one default allocation to make sure this works      
       const element_type* end() const
       { return &elems[num_elems]; }
       
       size_t size() const
-      { return num_elems-1; }
+      { return num_elems; }
 
     private:
       
@@ -186,7 +195,11 @@ namespace containers{
   template<typename element_type, size_t container_size>
   std::ostream& operator<<(std::ostream& os, SmallStack<element_type, container_size> const& s)
   {
-    std::copy(s.begin(),s.end(), std::ostream_iterator<element_type>(os, "\n"));
+    for(size_t i = 0; i!= s.size(); ++i){
+        os<<s[i];
+        os<<"\n";
+    }
+    //std::copy(s.begin(),s.end(), std::ostream_iterator<element_type>(os, "\n"));
     return os;
   }
 }
