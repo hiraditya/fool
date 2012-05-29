@@ -6,6 +6,8 @@ SET(CMAKE_CXX_FLAGS "-pedantic -Wall -g -std=c++0x")
  
 INCLUDE_DIRECTORIES(/home/hiraditya/Documents/fool/containers)
 
+ADD_DEFINITIONS(-DTEST_GENERIC_QUEUE)
 ADD_DEFINITIONS(-DTEST_QUEUE_SPECIALIZATION)
+
 ADD_EXECUTABLE(test
                testQueue.cpp)
