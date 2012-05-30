@@ -24,8 +24,9 @@ namespace containers{
   template<typename element_type, typename container_type = std::vector<element_type> >
   class Stack{
     public:
-      
-      //typedef typename container_type container_type;
+     /// REQUIREMENTS
+     //  operator[] has to be defined for the container_type
+     //  that means std::list cannot be used as container_type
 
       void push(element_type const& t);
       element_type pop();
@@ -47,6 +48,9 @@ namespace containers{
       size_t size() const
       { return elems.size(); }
       
+      template<typename element2_type, typename container2_type>
+      Stack<element_type>& operator=(Stack<element2_type, container2_type> const& S);
+
     private:
       container_type elems;
       
@@ -90,6 +94,34 @@ namespace containers{
     return elems.empty();
   }
 
+  template<typename element_type, typename container_type>
+    template<typename element2_type, typename container2_type>
+  Stack<element_type>& 
+  Stack<element_type, container_type>::operator=(Stack<element2_type, container2_type> const& S)
+  {
+    //self assignment
+    if((void*)this == (void*)&S){
+      return *this;
+    }
+
+    elems.clear();
+    
+    size_t i = 0;
+
+    //not doing push_front kind of thing because every STL container will 
+    //not support it, like vector
+    //on the other hand, operator[] is also not supported by evey STL
+    //container, but I prefer to support only those containers which have this operator 
+
+    //copy the elements
+    while(i<S.size()){
+      elems.push(S[i]);
+      ++i;
+    }
+
+    return *this;
+  }
+
   
   template<typename element_type, typename container_type>
   std::ostream& operator<<(std::ostream& os, Stack<element_type, container_type> const& s)
@@ -122,24 +154,27 @@ namespace containers{
       element_type top() const;
       bool empty() const;
 
+/*    not really required
+ *
       const element_type* begin() const 
       { return &elems[0]; }
 
-      element_type const& operator[](size_t i) const
-      { return elems[i]; }
 
       //even when the number of elements is zero there will be at least 
       //one default allocation to make sure this works      
       const element_type* end() const
       { return &elems[num_elems]; }
-      
+*/ 
+      element_type const& operator[](size_t i) const
+      { return elems[i]; }
+     
       size_t size() const
       { return num_elems; }
 
     private:
       
       //one extra element for book keeping
-      //so that begin and end satisfy the requirements
+      //so that begin() and end() work properly
       //also helpful when the stack has zero elements
       element_type elems[container_size+1];
       
