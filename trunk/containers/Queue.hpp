@@ -31,7 +31,8 @@ namespace containers{
 
       void push(element_type const& t);
       element_type pop();
-      element_type front() const;
+      element_type const& front() const;
+      element_type & front();
       bool empty() const;
 
       typename container_type::const_iterator begin() const 
@@ -69,10 +70,21 @@ namespace containers{
     return t;
   }
   
-  /// @brief returns a copy of the last element of the queue
+  /// @brief returns const reference of  the last element of the queue
   /// throws std::out_of_range exception
   template<typename element_type, typename container_type>
-  element_type Queue<element_type, container_type>::front() const
+  element_type const& Queue<element_type, container_type>::front() const
+  {
+    if(elems.empty())
+      throw std::out_of_range("Queue<>::front: empty queue");
+    
+    return *elems.begin();//copy of the first element
+  }
+
+  /// @brief returns reference of the last element of the queue
+  /// throws std::out_of_range exception
+  template<typename element_type, typename container_type>
+  element_type & Queue<element_type, container_type>::front()
   {
     if(elems.empty())
       throw std::out_of_range("Queue<>::front: empty queue");
@@ -115,7 +127,8 @@ namespace containers{
 
       void push(element_type const& t);
       element_type pop();
-      element_type front() const;
+      element_type const& front() const;
+      element_type & front();
       bool empty() const;
 
       //returns the number of elements in the queue
@@ -193,7 +206,16 @@ namespace containers{
   }
 
   template<typename element_type, size_t container_size>
-  element_type SmallQueue<element_type, container_size>::front() const
+  element_type const& SmallQueue<element_type, container_size>::front() const
+  {
+    if(num_elems <= 0)
+      throw std::out_of_range("Queue<>::top: empty queue");
+
+    return elems[i1];
+  }
+
+  template<typename element_type, size_t container_size>
+  element_type & SmallQueue<element_type, container_size>::front()
   {
     if(num_elems <= 0)
       throw std::out_of_range("Queue<>::top: empty queue");

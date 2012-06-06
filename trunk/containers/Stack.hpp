@@ -30,7 +30,10 @@ namespace containers{
 
       void push(element_type const& t);
       element_type pop();
-      element_type top() const;
+      
+      element_type const& top() const;
+      element_type&  top();
+
       bool empty() const;
       
       element_type const& operator[](size_t i) const
@@ -77,10 +80,21 @@ namespace containers{
     return t;
   }
   
-  /// @brief returns a copy of the last element of the stack
+  /// @brief returns a const reference of the last element of the stack
   /// throws std::out_of_range exception
   template<typename element_type, typename container_type>
-  element_type Stack<element_type, container_type>::top() const
+  element_type const& Stack<element_type, container_type>::top() const
+  {
+    if(elems.empty())
+      throw std::out_of_range("Stack<>::top: empty stack");
+    
+    return elems.back();//copy of the last element
+  }
+
+  /// @brief returns the reference of the last element of the stack
+  /// throws std::out_of_range exception
+  template<typename element_type, typename container_type>
+  element_type & Stack<element_type, container_type>::top()
   {
     if(elems.empty())
       throw std::out_of_range("Stack<>::top: empty stack");
@@ -151,7 +165,8 @@ namespace containers{
 
       void push(element_type const& t);
       element_type pop();
-      element_type top() const;
+      element_type const & top() const;
+      element_type & top();
       bool empty() const;
 
 /*    not really required
@@ -212,13 +227,23 @@ namespace containers{
   }
 
   template<typename element_type, size_t container_size>
-  element_type SmallStack<element_type, container_size>::top() const
+  element_type const& SmallStack<element_type, container_size>::top() const
   {
     if(num_elems <= 0)
       throw std::out_of_range("Stack<>::top: empty stack");
 
     return elems[num_elems -1];
   }
+
+  template<typename element_type, size_t container_size>
+  element_type& SmallStack<element_type, container_size>::top()
+  {
+    if(num_elems <= 0)
+      throw std::out_of_range("Stack<>::top: empty stack");
+
+    return elems[num_elems -1];
+  }
+
 
   template<typename element_type, size_t container_size>
   bool SmallStack<element_type, container_size>::empty() const
