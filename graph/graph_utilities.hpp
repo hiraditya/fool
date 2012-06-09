@@ -14,13 +14,13 @@
 #include<algorithm>
 
 namespace graph{
- 
+
   template<typename TreeHead>
   bool TestBlalanced(TreeHead* h)
   {
     if(!h)
       return true;
-    return general_utilities::abs(TreeHeight(h->left) - TreeHeight(h->right)) <=1;
+    return general_utilities::abs(TreeMaxDepth(h) - TreeMinDepth(h)) <=1;
   }
 
 
@@ -29,16 +29,24 @@ namespace graph{
   {
     if(!h)
       return 0;
-    return TreeDepth(h) -1;
+    return TreeMaxDepth(h) -1;
   }
 
 
   template<typename TreeHead>
-  size_t TreeDepth(const TreeHead * h) const
+  size_t TreeMaxDepth(const TreeHead * h) const
   {
     if(!h)
      return 0;
-    return std::max(TreeDepth(h->left) +1, TreeDepth(h->right) +1);
+    return 1 + std::max(TreeDepth(h->left), TreeDepth(h->right));
+  }
+
+  template<typename TreeHead>
+  size_t TreeMinDepth(const TreeHead * h) const
+  {
+    if(!h)
+     return 0;
+    return 1 + std::min(TreeDepth(h->left), TreeDepth(h->right));
   }
 
 
