@@ -9,8 +9,22 @@
  *  for terms and conditions.
  */
 
-
 #include <iostream>
+
+
+class NoElem{
+
+};
+
+class OneFunc{
+  int f(){ return 0; }
+};
+
+class OneVirtFunc{
+  virtual int f(){ return 0; }
+};
+
+
 int sizeof_datatypes()
 {
   std::cout << "Size of short is " << sizeof(short) << "\n";
@@ -21,6 +35,10 @@ int sizeof_datatypes()
   std::cout << "Size of long double is " << sizeof(long double) << "\n";
   std::cout << "Size of char is " << sizeof(char) << "\n";
   std::cout << "Size of bool is " << sizeof(bool) << "\n";
+  std::cout << "Size of class with no element is " << sizeof(NoElem) << "\n";
+  std::cout << "Size of class with one function is " << sizeof(OneFunc) << "\n";
+  std::cout << "Size of class with one virtual function is " << sizeof(OneVirtFunc) << "\n";
+
   return 0;
 }
 
