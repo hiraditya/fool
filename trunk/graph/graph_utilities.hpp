@@ -9,14 +9,14 @@
  *  http://www.opensource.org/licenses/mit-license.php 
  *  for terms and conditions.
  */
-#include "algorithm"
+#include "general_algorithm.hpp"
 
 #include<algorithm>
 
 namespace graph{
 
   template<typename TreeHead>
-  bool TestBlalanced(TreeHead* h)
+  inline bool TestBlalanced(TreeHead* h)
   {
     if(!h)
       return true;
@@ -25,7 +25,7 @@ namespace graph{
 
 
   template<typename TreeHead>
-  size_t TreeHeight(const TreeHead * h) const
+  inline size_t TreeHeight(const TreeHead * h) 
   {
     if(!h)
       return 0;
@@ -34,7 +34,7 @@ namespace graph{
 
 
   template<typename TreeHead>
-  size_t TreeMaxDepth(const TreeHead * h) const
+  inline size_t TreeMaxDepth(const TreeHead * h) 
   {
     if(!h)
      return 0;
@@ -42,7 +42,7 @@ namespace graph{
   }
 
   template<typename TreeHead>
-  size_t TreeMinDepth(const TreeHead * h) const
+  inline size_t TreeMinDepth(const TreeHead * h) 
   {
     if(!h)
      return 0;
