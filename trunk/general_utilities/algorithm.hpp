@@ -21,10 +21,19 @@ namespace general_utilities{
   }
 
   //returns the maximum of two
+  //if both have the same value then it returns the first one
   template<typename T>
   const T& max(const T& t1, const T& t2) const
   {
     return t1 < t2 ? t2 : t1;
+  }
+
+  //returns the minimum of two
+  //if both have the same value then it returns the first one
+  template<typename T>
+  const T& min(const T& t1, const T& t2) const
+  {
+    return t1 > t2 ? t2 : t1;
   }
 
 } //namespace general_utilities
