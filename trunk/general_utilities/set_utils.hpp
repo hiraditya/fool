@@ -22,6 +22,8 @@ namespace general_utilities{
   template<class T>
   std::ostream& operator<<(std::ostream& os, const std::set<T>& s)
   {
+
+      //std::for_each(s.begin(), s.end(), [&os](const T& t){os<<t<<"\n";});
       std::copy(s.begin(), s.end(), std::ostream_iterator<T>(os, "\n"));
       return os;
   }

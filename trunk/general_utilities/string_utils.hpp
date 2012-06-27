@@ -60,5 +60,14 @@ inline bool ends_with(std::string const& str, std::string const& suffix)
   }
   return true;
 }
+
+
+struct SortString {
+  bool operator()(std::string const& s1,std::string const& s2) const
+  {
+    return s1.compare(s2) < 0;
+  }
+};
+
 }
 #endif // UTILS_STRING_HPP
