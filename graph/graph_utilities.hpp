@@ -14,7 +14,7 @@
 #include<algorithm>
 
 namespace graph{
-
+//enable_if the tree is binary
   template<typename TreeHead>
   inline bool TestBlalanced(TreeHead* h)
   {
