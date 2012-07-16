@@ -9,7 +9,6 @@
  *  http://www.opensource.org/licenses/mit-license.php 
  *  for terms and conditions.
  */
-#include "general_algorithm.hpp"
 
 #include<algorithm>
 
@@ -20,7 +19,7 @@ namespace graph{
   {
     if(!h)
       return true;
-    return general_utilities::abs(TreeMaxDepth(h) - TreeMinDepth(h)) <=1;
+    return std::abs(TreeMaxDepth(h) - TreeMinDepth(h)) <=1;
   }
 
 
