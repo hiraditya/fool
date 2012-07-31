@@ -14,8 +14,8 @@ namespace general_utilities{
 
 
   //returns the absolute value 
-  template<typename T1, T2>
-  size_t abs(const T1 & t1) const
+  template<typename T1, typename T2>
+  size_t abs(const T1 & t1) 
   {
     return t1 <0 ? -t1 : t1;
   }
@@ -23,7 +23,7 @@ namespace general_utilities{
   //returns the maximum of two
   //if both have the same value then it returns the first one
   template<typename T>
-  const T& max(const T& t1, const T& t2) const
+  const T& max(const T& t1, const T& t2) 
   {
     return t1 < t2 ? t2 : t1;
   }
@@ -31,7 +31,7 @@ namespace general_utilities{
   //returns the minimum of two
   //if both have the same value then it returns the first one
   template<typename T>
-  const T& min(const T& t1, const T& t2) const
+  const T& min(const T& t1, const T& t2)
   {
     return t1 > t2 ? t2 : t1;
   }
