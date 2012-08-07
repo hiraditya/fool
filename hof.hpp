@@ -7,7 +7,9 @@
  *  for terms and conditions.
  */
 
-
+//planning when to start again with this docs
+//
+//
 // Higher-order functions (HOFs) are functions that take other functions as their arguments. 
 // A basic example of a HOF is map which takes a function and a list as its arguments, applies 
 // the function to all elements of the list, and returns the list of its results. 
