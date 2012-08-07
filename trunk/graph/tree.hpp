@@ -19,8 +19,8 @@ namespace graph{
   class Tree{
     public:
       
-      typedef edge_container std::list;
-      typedef vertex_container std::list;
+      typedef std::list edge_container;
+      typedef std::list vertex_container;
 
       Tree()
       { }

@@ -36,6 +36,38 @@ namespace general_utilities{
     return t1 > t2 ? t2 : t1;
   }
 
+  //the accumulator function returns the sum of all the elements
+  //in the list
+  template<typename T>
+  inline T::size_type accum(const T* beg, const T* end)
+  {
+    T total = T();
+    while(beg != end){
+      total += *beg;
+      ++beg;
+    }
+    return total;
+  }
+
+  //the accumulator function returns the sum of all the elements
+  //in the sequence 
+  template<typename T>
+  inline T::size_type accum(const T& t)
+  {
+    T total = T();
+    auto i = t.begin();
+
+    while(i != t.end){
+      total += *i;
+      ++i;
+    }
+
+    return total;
+  }
+ 
+
+
+
 } //namespace general_utilities
 
 
