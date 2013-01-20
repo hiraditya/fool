@@ -104,6 +104,23 @@ namespace fool {
       std::copy(begin(s),end(s),++begin(s_cons));
       return s_cons;
     }
+
+    /// \brief accessors
+    ///
+    template<typename forward_iterator>
+    inline forward_iterator succ(forward_iterator x, typename
+           iterator_traits<forward_iterator>::difference_type n = 1)
+    {
+      return std::next(x, n);
+    }
+
+    template<typename bidirectional_iterator>
+    inline bidirectional_iterator pred(bidirectional_iterator x, typename
+           iterator_traits<bidirectional_iterator>::difference_type n = 1)
+    {
+      return std::prev(x, n);
+    }
+
   }
 }
 #endif // FOOL_CONS_HPP
