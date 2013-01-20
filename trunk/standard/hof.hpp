@@ -7,30 +7,13 @@
  *  for terms and conditions.
  */
 
-
 // Higher-order functions (HOFs) are functions that take other functions as their arguments. 
 // A basic example of a HOF is map which takes a function and a list as its arguments, applies 
 // the function to all elements of the list, and returns the list of its results. 
 // For instance, we can write a function that subtracts 2 from all elements of 
 // a list without using loops or recursion:
-
 // subtractTwoFromList l = map (\x -> x - 2) l
-//sample use case
-//#include "hof.hpp"
-//#include<iostream>
-//#include<vector>
-//using namespace fool;
-//int main()
-//{
-//  std::vector<int> vi{1,2,3,4};
-//  auto f = [](int& i){i+=2;};
-//  FMap(f,vi);
-//  for(auto v = vi.begin(); v != vi.end(); ++v)
-//  {
-//    std::cout<<*v<<"\t";
-//  }
-//  return 0;
-//}
+
 #include<fool/standard/exceptions.hpp>
 
 #include<algorithm>
@@ -44,8 +27,9 @@ namespace fool {
     /// returns resulting sequence<T>
     /// This is the side effect free version
     template<typename function, typename sequence>
-    sequence FMap(const function &f, const sequence &s)
-    {
+    struct FMap {
+      sequence operator()(const function &f, const sequence &s) const
+      {
         // enable_if sequence is of sequence type
           sequence seq;
           std::for_each(begin(s), end(s),
@@ -53,15 +37,24 @@ namespace fool {
                              seq.push_back(f(v));
                         });
           return seq;
+      }
+    };
+
+    template<typename function, typename sequence>
+    inline auto map(const function& f, const sequence& s) ->
+      decltype(FMap<function, sequence>()(f,s))
+    {
+      return FMap<function, sequence>()(f,s);
     }
 
     /// \brief apply function 'f' to sequence 's', and then 
     /// again apply the function on the result.
     /// returns resulting sequence.
     template<typename function, typename sequence>
-    inline sequence FoF(const function &f, const sequence &s)
+    inline auto fof(const function &f, const sequence &s) ->
+      decltype(FMap<function, sequence>()(f,s))
     {
-      return FMap(f,FMap(f,s));
+      return FMap<function, sequence>()(f,FMap<function, sequence>()(f,s));
     }
   }
 }

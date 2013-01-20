@@ -6,6 +6,6 @@ include_directories("${cmake_source_directory} /home/vmplanet/Documents/examples
 include_directories("${cmake_source_directory} /home/vmplanet/Documents/examples/cplusplus/origin-read-only")
 #add_executable(test test_int.cpp)
 add_executable(test_hof test_hof.cpp)
-add_executable(test_FoF testFoF.cpp) 
+add_executable(test_fof test_fof.cpp) 
 add_executable(test_cons test_cons.cpp) 
-#add_executable(test test_find_size.cpp)
+add_executable(test_find_size test_find_size.cpp)
