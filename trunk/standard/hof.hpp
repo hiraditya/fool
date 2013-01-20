@@ -7,9 +7,7 @@
  *  for terms and conditions.
  */
 
-//planning when to start again with this docs
-//
-//
+
 // Higher-order functions (HOFs) are functions that take other functions as their arguments. 
 // A basic example of a HOF is map which takes a function and a list as its arguments, applies 
 // the function to all elements of the list, and returns the list of its results. 
@@ -33,32 +31,37 @@
 //  }
 //  return 0;
 //}
- 
+#include<fool/standard/exceptions.hpp>
 
 #include<algorithm>
-
 //The typename function should be a function object
 //The typename sequence should be a sequence type
-namespace fool{
-  /// \brief applies function 'f' to each element 
-  /// of the sequence 's'
-  /// returns resulting sequence
-  template<typename function, typename sequence>
-  sequence& FMap(function &f,sequence &s)
+namespace fool {
+  namespace standard 
   {
-    std::for_each(s.begin(),s.end(),
-        [&f](typename sequence::value_type& v) {
-          f(v);
-        });
-    return s;
-  }
+    /// \brief applies function (T function(T)) to each element 
+    /// of the sequence<T>
+    /// returns resulting sequence<T>
+    /// This is the side effect free version
+    template<typename function, typename sequence>
+    sequence FMap(const function &f, const sequence &s)
+    {
+        // enable_if sequence is of sequence type
+          sequence seq;
+          std::for_each(begin(s), end(s),
+                        [f, &seq](typename sequence::value_type const & v) {
+                             seq.push_back(f(v));
+                        });
+          return seq;
+    }
 
-  /// \brief apply function 'f' to sequence 's', and then 
-  /// again apply the function on the result.
-  /// returns resulting sequence.
-  template<typename function, typename sequence>
-  inline sequence& FoF(function &f, sequence &s)
-  {
-    return FMap(f,FMap(f,s));
+    /// \brief apply function 'f' to sequence 's', and then 
+    /// again apply the function on the result.
+    /// returns resulting sequence.
+    template<typename function, typename sequence>
+    inline sequence FoF(const function &f, const sequence &s)
+    {
+      return FMap(f,FMap(f,s));
+    }
   }
 }
