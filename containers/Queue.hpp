@@ -23,7 +23,8 @@ namespace containers{
 //                     GENERIC QUEUE IMPLEMENTATION                          //
 //-----------------------------------------------------------------------------
 
-  template<typename element_type, typename container_type = std::vector<element_type> >
+  template<typename element_type,
+           typename container_type = std::vector<element_type> >
   class Queue{
     public:
       
@@ -100,7 +101,8 @@ namespace containers{
 
   
   template<typename element_type, typename container_type>
-  std::ostream& operator<<(std::ostream& os, Queue<element_type, container_type> const& s)
+  std::ostream& operator<<(std::ostream& os,
+                           Queue<element_type, container_type> const& s)
   {
     /*
     for(auto i = s.begin(); i!= s.end(); ++i){
@@ -245,7 +247,7 @@ namespace containers{
   element_type const& 
   SmallQueue<element_type, container_size>::operator[](size_t i) const
   { 
-    if(i > num_elems || i < 0)
+    if(i > num_elems)
       throw std::out_of_range("Queue<> index");
 
     return elems[(i1+i)%container_size]; 
@@ -253,7 +255,8 @@ namespace containers{
 
 
   template<typename element_type, size_t container_size>
-  std::ostream& operator<<(std::ostream& os, SmallQueue<element_type, container_size> const& s)
+  std::ostream& operator<<(std::ostream& os,
+                           SmallQueue<element_type, container_size> const& s)
   {
     for(size_t i = 0; i != s.size(); ++i){
         os<<s[i];

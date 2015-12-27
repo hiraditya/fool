@@ -21,7 +21,8 @@ namespace containers{
 //                     GENERIC STACK IMPLEMENTATION                          //
 //-----------------------------------------------------------------------------
 
-  template<typename element_type, typename container_type = std::vector<element_type> >
+  template<typename element_type,
+           typename container_type = std::vector<element_type> >
   class Stack{
     public:
      /// REQUIREMENTS
@@ -52,7 +53,8 @@ namespace containers{
       { return elems.size(); }
       
       template<typename element2_type, typename container2_type>
-      Stack<element_type>& operator=(Stack<element2_type, container2_type> const& S);
+      Stack<element_type>& operator=(Stack<element2_type,
+                                     container2_type> const& S);
 
     private:
       container_type elems;
@@ -111,7 +113,8 @@ namespace containers{
   template<typename element_type, typename container_type>
     template<typename element2_type, typename container2_type>
   Stack<element_type>& 
-  Stack<element_type, container_type>::operator=(Stack<element2_type, container2_type> const& S)
+  Stack<element_type, container_type>::operator=(Stack<element2_type,
+                                                 container2_type> const& S)
   {
     //self assignment
     if((void*)this == (void*)&S){
@@ -125,7 +128,8 @@ namespace containers{
     //not doing push_front kind of thing because every STL container will 
     //not support it, like vector
     //on the other hand, operator[] is also not supported by evey STL
-    //container, but I prefer to support only those containers which have this operator 
+    //container, but I prefer to support only those containers
+    // which have this operator 
 
     //copy the elements
     while(i<S.size()){
@@ -138,7 +142,8 @@ namespace containers{
 
   
   template<typename element_type, typename container_type>
-  std::ostream& operator<<(std::ostream& os, Stack<element_type, container_type> const& s)
+  std::ostream& operator<<(std::ostream& os, Stack<element_type,
+                           container_type> const& s)
   {
     
     for(size_t i = 0; i!= s.size(); ++i){
@@ -253,7 +258,8 @@ namespace containers{
 
 
   template<typename element_type, size_t container_size>
-  std::ostream& operator<<(std::ostream& os, SmallStack<element_type, container_size> const& s)
+  std::ostream& operator<<(std::ostream& os, SmallStack<element_type,
+                           container_size> const& s)
   {
     for(size_t i = 0; i!= s.size(); ++i){
         os<<s[i];
