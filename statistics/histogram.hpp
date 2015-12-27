@@ -56,25 +56,29 @@ public:
   }
 
   /// Computes the differential histogram and puts in the \p hist.
+  /// \p sep is the separator to be used while printing successive elements.
   /// Algorithm: Print side-by-side adjacent values in the form of a string
   /// and then sort the string.
-  void compute_differential (std::map <std::string, unsigned> &hist) {
+  void compute_differential (std::map <std::string, unsigned> &hist,
+                             char sep) {
     assert (!vec.empty() && "Empty Histogram");
     for (unsigned i = 0; i < vec.size() - 1; ++i) {
       std::stringstream s;
-      s << vec[i] << vec[i+1];
+      s << vec[i] << sep << vec[i+1];
       hist[s.str()]++;
     }
   }
 
   /// Computes the double differential histogram and puts in the \p hist.
+  /// \p sep is the separator to be used while printing successive elements.
   /// Algorithm: Print side-by-side two adjacent values in the form of a string
   /// and then sort the string.
-  void compute_double_differential (std::map <std::string, unsigned> &hist) {
+  void compute_double_differential (std::map <std::string, unsigned> &hist,
+                                    char sep) {
     assert (!vec.empty() && "Empty Histogram");
     for (unsigned i = 0; i < vec.size() - 2; ++i) {
       std::stringstream s;
-      s << vec[i] << vec[i+1] << vec[i+2];
+      s << vec[i] << sep << vec[i+1] << sep << vec[i+2];
       hist[s.str()]++;
     }
   }
@@ -95,24 +99,26 @@ public:
 
   /// Prints the differential (delta) of the adjacent elements, side-by-side.
   /// This can be used to analyze the statistics of smallest sequence.
+  /// \p sep is the separator to be used while printing successive elements.
   /// Algorithm: Print side-by-side adjacent values in the form of a string
   /// and then sort the string.
-  std::ostream& print_differential(std::ostream& os) {
+  std::ostream& print_differential(std::ostream& os, char sep = ' ') {
     assert (!vec.empty() && "Empty Histogram");
     std::map <std::string, unsigned> hist;
-    compute_differential (hist);
+    compute_differential (hist, sep);
     os << hist;
     return os;
   }
 
   /// This will print two adjacent elements side-by-side so that
   /// next-next event can be analyzed.
+  /// \p sep is the separator to be used while printing successive elements.
   /// Algorithm: Print side-by-side two adjacent values in the form of a string
   /// and then sort the string.
-  std::ostream& print_double_differential(std::ostream& os) {
+  std::ostream& print_double_differential(std::ostream& os, char sep = ' ') {
     assert (!vec.empty() && "Empty Histogram");
     std::map <std::string, unsigned> hist;
-    compute_double_differential (hist);
+    compute_double_differential (hist, sep);
     os << hist;
     return os;
   }

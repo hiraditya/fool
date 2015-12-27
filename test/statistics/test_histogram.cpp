@@ -13,9 +13,9 @@ int test_print(histogram<T> &h)
   std::cout << "\nPrinting the histogram\n";
   std::cout << h.print_hist(std::cout, true) << std::endl;
   std::cout << "\nPrinting the differential histogram\n";
-  std::cout << h.print_differential(std::cout) << std::endl;
+  std::cout << h.print_differential(std::cout, ',') << std::endl;
   std::cout << "\nPrinting the double differential histogram\n";
-  std::cout << h.print_double_differential(std::cout) << std::endl;  
+  std::cout << h.print_double_differential(std::cout, ',') << std::endl;
 }
 
 int test_int()
