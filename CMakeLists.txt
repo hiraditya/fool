@@ -5,6 +5,7 @@ INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${DIR}/fool/fool")
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${DIR}/origin")
 
 set(cmake_cxx_flags "${CMAKE_CXX_FLAGS} -std=c++11 -g")
+
 ADD_SUBDIRECTORY(containers)
 ADD_SUBDIRECTORY(concepts)
 ADD_SUBDIRECTORY(Estimator)
@@ -19,3 +20,5 @@ ADD_SUBDIRECTORY(standard)
 ADD_SUBDIRECTORY(statistics)
 ADD_SUBDIRECTORY(thread)
 ADD_SUBDIRECTORY(test)
+
+add_custom_target(dummy ALL ${HEADERS} ${SOURCES})

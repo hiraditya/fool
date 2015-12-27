@@ -11,6 +11,7 @@
  */
 
 #include <algorithm>
+#include <cassert>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -47,17 +48,18 @@ public:
     }
   }
 
-  // Computes the histogram and puts in the \p hist
+  /// Computes the histogram and puts in the \p hist
   void compute_histogram (std::map <T, unsigned> &hist) {
     for (unsigned i = 0; i < vec.size(); ++i) {
       hist[vec[i]]++;
     }
   }
 
-  // Computes the differential histogram and puts in the \p hist.
-  // Algorithm: Print side-by-side adjacent values in the form of a string
-  // and then sort the string.
+  /// Computes the differential histogram and puts in the \p hist.
+  /// Algorithm: Print side-by-side adjacent values in the form of a string
+  /// and then sort the string.
   void compute_differential (std::map <std::string, unsigned> &hist) {
+    assert (!vec.empty() && "Empty Histogram");
     for (unsigned i = 0; i < vec.size() - 1; ++i) {
       std::stringstream s;
       s << vec[i] << vec[i+1];
@@ -65,10 +67,11 @@ public:
     }
   }
 
-  // Computes the double differential histogram and puts in the \p hist.
-  // Algorithm: Print side-by-side two adjacent values in the form of a string
-  // and then sort the string.
+  /// Computes the double differential histogram and puts in the \p hist.
+  /// Algorithm: Print side-by-side two adjacent values in the form of a string
+  /// and then sort the string.
   void compute_double_differential (std::map <std::string, unsigned> &hist) {
+    assert (!vec.empty() && "Empty Histogram");
     for (unsigned i = 0; i < vec.size() - 2; ++i) {
       std::stringstream s;
       s << vec[i] << vec[i+1] << vec[i+2];
@@ -76,8 +79,8 @@ public:
     }
   }
 
-  // Prints the statistics of one entry at a time. This is the basic
-  // histogram. If \p sum is true, then add the elements as well.
+  /// Prints the statistics of one entry at a time. This is the basic
+  /// histogram. If \p sum is true, then add the elements as well.
   std::ostream& print_hist(std::ostream &os, bool sum=false) {
     if (!sum) {
       os << vec;
@@ -90,31 +93,32 @@ public:
     return os;
   }
 
-  // Prints the differential (delta) of the adjacent elements, side-by-side.
-  // This can be used to analyze the statistics of smallest sequence.
-  // Algorithm: Print side-by-side adjacent values in the form of a string
-  // and then sort the string.
+  /// Prints the differential (delta) of the adjacent elements, side-by-side.
+  /// This can be used to analyze the statistics of smallest sequence.
+  /// Algorithm: Print side-by-side adjacent values in the form of a string
+  /// and then sort the string.
   std::ostream& print_differential(std::ostream& os) {
+    assert (!vec.empty() && "Empty Histogram");
     std::map <std::string, unsigned> hist;
     compute_differential (hist);
     os << hist;
     return os;
   }
 
-  // This will print two adjacent elements side-by-side so that
-  // next-next event can be analyzed.
-  // Algorithm: Print side-by-side two adjacent values in the form of a string
-  // and then sort the string.
+  /// This will print two adjacent elements side-by-side so that
+  /// next-next event can be analyzed.
+  /// Algorithm: Print side-by-side two adjacent values in the form of a string
+  /// and then sort the string.
   std::ostream& print_double_differential(std::ostream& os) {
+    assert (!vec.empty() && "Empty Histogram");
     std::map <std::string, unsigned> hist;
     compute_double_differential (hist);
     os << hist;
     return os;
   }
 
-  friend
-  std::ostream& operator << (std::ostream &os, histogram <T> &h) {
-    os << h.vec;
+  std::ostream& operator << (std::ostream &os) {
+    os << vec;
     return os;
   }
 
