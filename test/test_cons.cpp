@@ -11,13 +11,13 @@ int main()
   int first = car(vi);
   std::cout<<"\nfirst element is:"<<first;
   std::cout<<"\nthe cdr is:";
-  auto last = cdr(vi);
-  for(auto v = last.begin(); v != last.end(); ++v)
+  auto remaining_list = cdr(vi);
+  for(auto v = remaining_list.begin(); v != remaining_list.end(); ++v)
   {
     std::cout<<*v<<"\t";
   }
   std::cout<<"\nThe cons of two sequences are:";
-  auto comb = cons(first,last);
+  auto comb = cons(first, remaining_list);
   for(auto v = comb.begin(); v != comb.end(); ++v)
   {
     std::cout<<*v<<"\t";
