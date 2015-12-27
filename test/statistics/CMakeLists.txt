@@ -1,0 +1,1 @@
+add_executable(test_histogram test_histogram.cpp)
