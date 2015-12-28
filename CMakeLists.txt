@@ -2,7 +2,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(FOOL)
 set(DIR "/home/hiraditya/work/")
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${DIR}/fool/fool")
-INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${DIR}/origin")
 
 set(cmake_cxx_flags "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 
@@ -16,9 +15,14 @@ ADD_SUBDIRECTORY(ClangProject)
 ADD_SUBDIRECTORY(dependency)
 ADD_SUBDIRECTORY(general_utilities)
 ADD_SUBDIRECTORY(network)
-ADD_SUBDIRECTORY(standard)
 ADD_SUBDIRECTORY(statistics)
 ADD_SUBDIRECTORY(thread)
 ADD_SUBDIRECTORY(test)
+
+OPTION(ORIGIN_AVAILABLE "Build Library with super cool option" OFF)
+if(ORIGIN_AVAILABLE)
+  INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${DIR}/origin")
+  ADD_SUBDIRECTORY(standard)
+endif()
 
 add_custom_target(dummy ALL ${HEADERS} ${SOURCES})

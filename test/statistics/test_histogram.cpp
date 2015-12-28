@@ -8,14 +8,14 @@
 using namespace fool::statistics;
 
 template<typename T>
-int test_print(histogram<T> &h)
+int test_print(const histogram<T> &h)
 {
   std::cout << "\nPrinting the histogram\n";
-  std::cout << h.print_hist(std::cout, true) << std::endl;
+  h.print_hist(std::cout, true);
   std::cout << "\nPrinting the differential histogram\n";
-  std::cout << h.print_differential(std::cout, ',') << std::endl;
+  h.print_differential(std::cout, ',');
   std::cout << "\nPrinting the double differential histogram\n";
-  std::cout << h.print_double_differential(std::cout, ',') << std::endl;
+  h.print_double_differential(std::cout, ',');
 }
 
 int test_int()
@@ -42,32 +42,14 @@ int test_string()
   return 0;
 }
 
-
 int test_file(const char* filename)
 {
   std::ifstream f(filename);
-  assert (f.is_open());
-  std::string str((std::istreambuf_iterator<char>(f)),
-                  std::istreambuf_iterator<char>());
-  //DEBUG (std::cout << "\nBefore: " << str);
-  //str.erase(std::unique(str.begin(), str.end(),
-  //                      [](char a, char b) {
-  //                        return isspace(a) && isspace (b);
-  //                      }),
-  //          str.end());
-  //DEBUG (std::cout << "\nAfter: " << str);
-  std::vector<std::string> words;
-  std::istringstream s (str);
-  std::copy(std::istream_iterator<std::string>(s),
-            std::istream_iterator<std::string>(),
-            std::back_inserter(words));
-
-  std::cout << "\nSize of vector: " << words.size() << std::endl;
-  histogram<std::string> h(words);
+  histogram<std::string> h;
+  h.read_data(f);
   test_print(h);
   return 0;
 }
-
 
 int main()
 {

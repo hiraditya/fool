@@ -3,6 +3,7 @@ look for prefix 'fool'.
 
 Dependencies:
 origin library from: https://github.com/hiraditya/origin
+
 g++ > 4.9
 
 For out of source builds:
@@ -17,5 +18,4 @@ For out of source builds:
 
 5. make
 
-You might want to modify the top level CMakeLists.txt and test/CMakeList.txt, for appropriate include paths.
-
+You might want to modify the top level CMakeLists.txt, for appropriate include paths.
