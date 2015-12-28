@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(test)
 
 set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS "-std=c++11 -g ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 -g3 ${CMAKE_CXX_FLAGS}")
 include_directories("${cmake_source_directory} ${DIR}/fool")
 
 if(ORIGIN_AVAILABLE)

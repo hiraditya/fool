@@ -3,7 +3,7 @@ PROJECT(FOOL)
 set(DIR "/home/hiraditya/work/")
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${DIR}/fool/fool")
 
-set(cmake_cxx_flags "${CMAKE_CXX_FLAGS} -std=c++11 -g")
+set(cmake_cxx_flags "${CMAKE_CXX_FLAGS} -std=c++11 -g3")
 
 ADD_SUBDIRECTORY(containers)
 ADD_SUBDIRECTORY(concepts)
