@@ -97,7 +97,6 @@ public:
   /// Returns true if the arguments are in the ignore list.
   bool is_ignore(const T& t) const {
     if (std::find(ignore.begin(), ignore.end(), t) != ignore.end()) {
-      //      std::cout << "\nMarker found: " << t;
       return true;
     }
     return false;
