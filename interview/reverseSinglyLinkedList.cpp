@@ -3,35 +3,28 @@
 
 // Reverse a singly linked list
 // Node { Node *next; T Item }
-// [Head] -> [] -> [] -> [] ->null
+
+
+//        [Head] -> [N1] -> [N2] -> [N3] -> null
+// prev     curr
+//                 temp
+
+// null <- [Head] <- [N1] <- [N2] <- [N3]
+
 template <typename T>
 void reverse(singly_list<T>& l) {
   typedef Node<T> NodeT;
   NodeT *prev = nullptr;
-  NodeT *head = l.head;
-  while (head) {
-    NodeT *temp = head->next;
-    head->next = prev;
-    prev = head;
-    head = temp;
+  NodeT *curr = l.head;
+
+  while (curr) {
+    NodeT *temp = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = temp;
   }
   l.tail = l.head;
   l.head = prev;
-}
-
-template <typename T>
-Node<T> *get_middle(singly_list<T>& l) {
-  typedef Node<T> NodeT;
-  NodeT *slow = l.head;
-  NodeT *fast = l.head;
-  while (fast) {
-    fast = fast->next;
-    if (fast) {
-      slow = slow->next;
-      fast = fast->next;
-    }
-  }
-  return slow;
 }
 
 int main() {
@@ -39,12 +32,8 @@ int main() {
   for (int i = 0; i < 11; i++)
     l.push_back(i);
 
-  std::cout << l;
-  //std::cout << "\nMiddle: " << get_middle(l)->e;
+  std::cout << "\nOriginal: " << l;
   reverse(l);
-  std::cout << l;
-  //std::cout << "\nMiddle: " << get_middle(l)->e;
-  auto sl = l.split(l.begin());
-  std::cout << "\nAfter split: " << l << " and " << sl;
-return 0;
+  std::cout << "\nReversed: " << l;
+  return 0;
 }
