@@ -6,11 +6,11 @@
 // [Head] -> [] -> [] -> [] ->null
 template <typename T>
 void reverse(singly_list<T>& l) {
-  typedef Node<T> Node;
-  Node *prev = nullptr;
-  Node *head = l.head;
+  typedef Node<T> NodeT;
+  NodeT *prev = nullptr;
+  NodeT *head = l.head;
   while (head) {
-    Node *temp = head->next;
+    NodeT *temp = head->next;
     head->next = prev;
     prev = head;
     head = temp;
@@ -21,9 +21,9 @@ void reverse(singly_list<T>& l) {
 
 template <typename T>
 Node<T> *get_middle(singly_list<T>& l) {
-  typedef Node<T> Node;
-  Node *slow = l.head;
-  Node *fast = l.head;
+  typedef Node<T> NodeT;
+  NodeT *slow = l.head;
+  NodeT *fast = l.head;
   while (fast) {
     fast = fast->next;
     if (fast) {

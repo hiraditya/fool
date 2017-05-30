@@ -10,12 +10,12 @@ struct Node {
 
 template<typename T>
 struct singly_list {
-  typedef Node<T> Node;
+  typedef Node<T> NodeT;
   typedef size_t size_type;
-  typedef Node* iterator; // Forward iterator
-  typedef const Node* const_iterator; // Forward iterator
-  Node *head;
-  Node *tail;
+  typedef NodeT* iterator; // Forward iterator
+  typedef const NodeT* const_iterator; // Forward iterator
+  NodeT *head;
+  NodeT *tail;
   size_type sz;
   singly_list() : head(nullptr), tail(head)
   {}
@@ -23,9 +23,9 @@ struct singly_list {
   : head(b), tail(l), sz(s)
   {}
   ~singly_list() {
-    Node *h = head;
+    NodeT *h = head;
     while(h) {
-      Node *temp = h->next;
+      NodeT *temp = h->next;
       delete h;
       h = temp;
     }
@@ -56,7 +56,7 @@ struct singly_list {
   }
   void push_back(T t) {
     //std::cout << "\nAdding: " << t;
-    Node *n = new Node(t);
+    NodeT *n = new NodeT(t);
     if (!head) {
       //std::cout << "\nAdding head: " << t;
       head = n;
@@ -81,7 +81,7 @@ struct singly_list {
   // When head is already there this can be used.
   // This will avoid unnecessary check for nullness of head.
   void push_back_fast(T t) {
-    Node *n = new Node(t);
+    NodeT *n = new NodeT(t);
     tail->next = n;
     tail = n;
     ++sz;
