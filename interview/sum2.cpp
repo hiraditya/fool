@@ -26,7 +26,8 @@ std::pair<T, T> find_sum2(T b, T e) {
 
 int main() {
   // Sorted array.
-  std::array<int, 7> a{ -4, -4, -1, 0, 1, 2, 3};
+  // If the array is not sorted then we need to sort it.
+  std::array<int, 7> a{-4, -4, -1, 0, 1, 2, 3};
   std::pair<int*, int*> v = find_sum2(a.begin(), a.end());
 
   if (v.first != nullptr)

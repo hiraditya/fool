@@ -2,7 +2,7 @@
 #include<array>
 
 /**
-   To find two numbers in an array whose sum is zero.
+   To find all pairs of numbers in an array whose sum is zero.
  */
 
 // Returns the positions which sum to zero.
