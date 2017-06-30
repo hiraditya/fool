@@ -4,7 +4,7 @@
 #include <chrono>
 #include <thread>
 
-/* Very simply question of inserting latest 5000 records in
+/* Inserting latest 5000 records in
    container along with timestamp and retrieve them as needed and discard which are older then 5000. 
 */
 
@@ -68,4 +68,3 @@ int main() {
   }
   return 0;
 }
-
