@@ -1,0 +1,37 @@
+DP:
+Splitting a string such that all the words are in the dictionary
+word breaking
+coin change
+longest increasing subsequence
+
+Famous person:
+	Optimal way to find the famous person in the party
+
+Fix sorted arrays:
+		mostly sorted array to be sorted.
+
+
+Integer To English *
+Roman to integer
+https://github.com/playingvoid/Java/tree/master/CodingProblems/arrayProblems/longestMonotonic
+
+Flatten a linked list
+https://github.com/playingvoid/Java/tree/master/CodingProblems/treeProblems
+football machine
+game of boggle: matrix of letters
+* Implement arbitrary reads given 4k chunks
+* yelp
+
+hamming distance of an array of elements: O(n), multiply zero and 1 bits of each position
+
+principles of dynamic programming:
+	divided into subproblems
+	optimal sub structure
+	repeated calculation of sub problems
+
+Iterator for Inorder traversal *
+Tree - Binary Tree - Longest Path (Diameter) left-height + right-height*
+minimum number of people needed to propagate message on twitter
+trie data structure
+amazing number
+stock buy-sell with maximum profit and a transaction fee

@@ -1,0 +1,164 @@
+class Intervals {
+public:
+     
+   std::list<int> l;
+   /**
+     * Adds an interval [from, to) into internal structure.
+     2 4 6 7
+     3 7
+     2 7
+     */
+    virtual void addInterval(int from, int to) {
+      auto it = std::lower_bound(l.begin(), l.end(), from);
+      auto it2 = std::lower_bound(l.begin(), l.end(), from);
+
+      // New interval
+      auto left = it; --left;
+      auto right = it; ++right;
+      // from lies in between
+      int f_dist = std::distance(it, l.begin()) +1;
+      int s_dist = std::distance(it2, l.begin()) +1;
+
+      if (f_dist %2 !=0) {
+          if (f_dist == s_dist)
+            return;
+          // between
+          if (s_dist %2 != 0) {
+             // Remove partial ranges and add to.
+             *it2 = to;
+             remove_range(it, it2);             
+             // If it2 and it2+1 are same.
+          }
+      }
+      else {
+          // from is outside any range
+      }
+      
+      // from lies outside the range
+      
+      
+    }
+ 
+    /**
+     * Returns a total length covered by the added intervals.
+     * If several intervals intersect, the intersection should be counted only once.
+     * Example:
+     *
+     * addInterval(3, 6)
+     * addInterval(8, 9)
+     * addInterval(1, 5)
+     *
+     * getTotalCoveredLength() -> 6
+     *
+     * i.e. [1,5) and [3,6) intersect and give a total covered interval [1,6) with a length of 5.
+     *      [1,6) and [8,9) don't intersect, so the total covered length is a sum of both intervals, that is 5+1=6.
+     *
+     *          |__|__|__|                  (3,6)
+     *                         |__|         (8,9)
+     *    |__|__|__|__|                     (1,5)
+     *
+     * 0  1  2  3  4  5  6  7  8  9  10
+     2 4 6 7
+     3 7
+     2 7
+     *
+     */
+    virtual int getTotalCoveredLength() = 0;
+ 
+}
+
+
+
+
+/*
+ * Returns true if the input string is a number and false otherwise. 
+ * Note that you canNOT use Double.toDouble(), but need to parse the input string character-by-character
+ */
+#include<string>
+#include<cassert>
+
+bool is_digit(char c) {
+  return c <= '9' && c >= '0';
+}
+
+bool isNumber(string toTest)
+{
+    /*
+    N0 = [+/-] N1
+    N1 = Digits
+       | Digits.Digits
+    */
+    if (toTest.empty())
+      return false;
+    unsigned l = toTest.size());
+    char *p = toTest;
+    int i = 0;
+    if (*p == '+' || *p == '-') {
+        ++i;
+        if (l < 2)
+          return false;
+    }
+
+    unsigned decimals = 0;
+    for ( ; i < l; ++i) {
+        if (is_digit(p[i])) {
+          continue;
+        }
+        if (p[i] == '.') {
+          ++decimals;
+          if (decimals > 1)
+              return false;
+        }
+        return false;
+    }
+    return true;
+}
+
+
+int main() {
+  isNumber("-");  
+  isNumber("..");  
+  isNumber("0");  
+  isNumber("-1");  
+  isNumber("-.0");  
+  isNumber("-.");  
+  isNumber("--");  
+  isNumber("100");
+  isNumber("100.01");  
+  isNumber("100.01.0");  
+  isNumber("100.01-asdf");  
+  isNumber("1234567890123431432142134213432141326565766576487487");  
+ 
+ return 0;
+}
+
+
+// Binary tree find ancestor
+#include<unordered_set>
+Node* findAncestor(Node *p1, Node *p2) {
+    while (p1) {
+        m.insert(p1);
+        p1 = p1->parent;
+    }
+    while (p2) {
+      if (m.find(p2) != m.end())
+          return p2;
+        p2 = p2->parent());
+    }
+  return nullptr;
+}
+
+
+int shortestWordDistance(const std::map<string> &words, string w1, string w2) {
+    int min = INT_MAX, p1 = -1, p2 = -1;
+    int i = 0;
+    for (auto &w: words) {
+        if (w1 == w)
+            p1 = i;
+        if (w2 == w)
+            p2 = i;
+        if (p1 != -1 && p2 != -1)
+            min = std::min(std::abs(p1-p2), min);
+    }
+    return min;
+}
