@@ -1,4 +1,8 @@
 #!/usr/bin/python
+'''
+A program to monitor a running process and prints
+the time when it finishes.
+'''
 import datetime
 #import subprocess
 import commands
