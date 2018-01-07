@@ -11,9 +11,22 @@ sudo apt-get install -y build-essential
 # who is using port 80
 #netstat -tulpn | grep --color :80
 
-#How to redirect port 80 request to port 3000 https://stackoverflow.com/questions/16573668/best-practices-when-running-node-js-with-port-80-ubuntu-linode
+redirect() {
+  #How to redirect port 80 request to port 3000 https://stackoverflow.com/questions/16573668/best-practices-when-running-node-js-with-port-80-ubuntu-linode
 
-sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+  # to redirect a port to another port
+  sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+  # to list all prerouting maps
+  sudo iptables -t nat --line-numbers -L
+  # the list of prerouting redirects look like this
+  Chain PREROUTING (policy ACCEPT)
+  num  target     prot opt source               destination         
+  1    REDIRECT   tcp  --  anywhere             anywhere             tcp dpt:http redir ports 3000
+
+  # to remove a prerouting entry num
+  iptables -t nat -D PREROUTING 1 # 1 is the num entry from the list above
+}
+
 Use the forever module to launch your Node.js with. It will make sure that it restarts if it ever crashes and it will
 redirect console logs to a file.
 
@@ -23,3 +36,7 @@ redirect console logs to a file.
 [sudo] npm install forever-monitor
 
 forever start -c "npm start" ./
+# to see all the running processes
+forever list
+# ssh to amazon aws or ec2
+ssh -i ~/.ssh/kp-one.pem ubuntu@xxxxxx.compute.amazonaws.com
