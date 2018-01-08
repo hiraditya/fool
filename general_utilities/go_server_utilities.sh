@@ -38,7 +38,10 @@ redirect console logs to a file.
 [sudo] npm install forever -g
 [sudo] npm install forever-monitor
 
+# forever command -c command command-options
 forever start -c "npm start" ./
+forever start -c "node"  ./app.js
+
 # to see all the running processes
 forever list
 # ssh to amazon aws or ec2
