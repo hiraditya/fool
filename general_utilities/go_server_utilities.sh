@@ -39,7 +39,9 @@ redirect console logs to a file.
 [sudo] npm install forever-monitor
 
 # forever command -c command command-options
+# for learn-indi
 forever start -c "npm start" ./
+# for other react ones.
 forever start -c "node"  ./app.js
 
 # to see all the running processes
