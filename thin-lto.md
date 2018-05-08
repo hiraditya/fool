@@ -4,10 +4,9 @@
 
 ### Sequential
   - linkCombinedIndex
-  - computeDevirtualization
 
 ### Parallel
-Optimizer and codegen
+## Optimizer and codegen
 
 For each module
   - loadModuleFromBuffer
@@ -18,20 +17,20 @@ For each module
 # Overview of relevant files and functions
 
 ### ThinLTOCodeGenerator.cpp
-  - crossModuleImport (Perform cross-module importing for the module identified by ModuleIdentifier, calls collectDefinedGVSummariesPerModule)
+  - crossModuleImport (Perform cross-module importing for the module identified by `ModuleIdentifier`, calls `ModuleSummaryIndex::collectDefinedGVSummariesPerModule`, `FunctionImport::ComputeCrossModuleImport` and `crossImportIntoModule`)
+  - crossImportIntoModule (imports function using `FunctionImporter` by calling `FunctionImporter::importFunctions`)
   - gatherImportedSummariesForModule (Compute the list of summaries needed for importing into module.)
-  - ThinLTOCodeGenerator::run (Main driver for the thinlto)
-
-### ProcessThinLTOModule
-  - promoteModule
-  - thinLTOResolveWeakForLinkerModule
-  - thinLTOInternalizeModule (run internalization based on summary analysis, change symbol visibility to preserve/drop)
-  - crossImportIntoModule
-  - optimizeModule
+  - ThinLTOCodeGenerator::run (Main driver for the thinlto calls `ProcessThinLTOModule`)
+  - ProcessThinLTOModule calls these functions
+    - promoteModule
+    - thinLTOResolveWeakForLinkerModule
+    - thinLTOInternalizeModule (run internalization based on summary analysis, change symbol visibility to preserve/drop)
+    - crossImportIntoModule
+    - optimizeModule
 
 ## Compute all the import and export for every module using the Index.
 ### FunctionImport.cpp
-  - ComputeCrossModuleImport (Main driver function to import and export symbols based on `ModuleToDefinedGVSummaries`)
+  - ComputeCrossModuleImport (Main driver function to import and export symbols based on `ModuleToDefinedGVSummaries`. Computes all the import and export for every module using the `ModuleSummaryIndex`)
   - ComputeImportForModule (compute the list of imports as well as the list of "exports", calls `computeImportForFunction`)
   - computeImportForFunction (Compute the list of functions to import for a given caller, calls `computeImportForFunctionAlongEdge`. Marks all functions and globals it (the function) references as exported
 to the outside if they are defined in the same source module)
@@ -48,11 +47,11 @@ exported from their source module. Inserts `VI.getGUID()` to `ExportLists`)
     - ImportList to have the symbols available for use during thin-lto
     - ExportList to have the symbol available to the user during thin-lto
     - Relevant function:
-      - doImportingForModule (imports relevant symbols for module M based on the module summary index, calls  renameModuleForThinLTO before calling Importer.importFunctions)
-      - renameModuleForThinLTO (promotes globals if they are required to be imported by other module, calls processGlobalsForThinLTO to set the visibility)
+      - doImportingForModule (imports relevant symbols for module M based on the module summary index, calls  renameModuleForThinLTO before calling `Importer.importFunctions`)
+      - renameModuleForThinLTO (promotes globals if they are required to be imported by other module, calls `processGlobalsForThinLTO` to set the visibility)
       - FunctionImporter::importFunctions (import functions used by Module based on import list)
 
 
 ### ModuleSummaryIndex.cpp
 Collect for each module the list of function it defines (GUID -> Summary).
-  - collectDefinedGVSummariesPerModule (iterate over GlobalValueMap to populate summary of each GUID)
+  - collectDefinedGVSummariesPerModule (iterate over `GlobalValueMap` to populate summary of each GUID)
