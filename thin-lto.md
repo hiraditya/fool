@@ -1,32 +1,36 @@
 # Overview of thin lto
 
-## Sequential steps followed by parallel codegen
+## Sequential steps followed by parallel codegen (`ThinLTOCodeGenerator::run()`)
 
 ### Sequential
   - linkCombinedIndex
 
 ### Parallel
-## Optimizer and codegen
+  - Optimizer and codegen
 
-For each module
-  - loadModuleFromBuffer
-  - saveTempBitcode
-  - get the import list for the module
-  - ProcessThinLTOModule (the main process)
 
 # Overview of relevant files and functions
 
 ### ThinLTOCodeGenerator.cpp
-  - crossModuleImport (Perform cross-module importing for the module identified by `ModuleIdentifier`, calls `ModuleSummaryIndex::collectDefinedGVSummariesPerModule`, `FunctionImport::ComputeCrossModuleImport` and `crossImportIntoModule`)
-  - crossImportIntoModule (imports function using `FunctionImporter` by calling `FunctionImporter::importFunctions`)
-  - gatherImportedSummariesForModule (Compute the list of summaries needed for importing into module.)
+For each module
   - ThinLTOCodeGenerator::run (Main driver for the thinlto calls `ProcessThinLTOModule`)
-  - ProcessThinLTOModule calls these functions
-    - promoteModule
-    - thinLTOResolveWeakForLinkerModule
-    - thinLTOInternalizeModule (run internalization based on summary analysis, change symbol visibility to preserve/drop)
-    - crossImportIntoModule
-    - optimizeModule
+    - Sequential part:
+      - linkCombinedIndex
+      - ComputeCrossModuleImport (collect the import/export lists for all modules from the call-graph in the combined index)
+      - internalizeAndPromoteInIndex (Use global summary-based analysis to identify symbols that can be internalized)
+    - Parallel part (optimizer + codegen):
+      - loadModuleFromBuffer
+      - saveTempBitcode
+      - ProcessThinLTOModule (The main thin-lto optimizer process)
+      - writeGeneratedObject
+    - ProcessThinLTOModule calls these functions
+      - promoteModule
+      - thinLTOResolveWeakForLinkerModule
+      - thinLTOInternalizeModule (run internalization based on summary analysis, change symbol visibility to preserve/drop)
+      - crossImportIntoModule (imports function using `FunctionImporter` by calling `FunctionImporter::importFunctions`)
+      - optimizeModule
+  - crossModuleImport (called by `llvm-lto.cpp` Perform cross-module importing for the module identified by `ModuleIdentifier`, calls `ModuleSummaryIndex::collectDefinedGVSummariesPerModule`, `FunctionImport::ComputeCrossModuleImport` and `crossImportIntoModule`)
+  - gatherImportedSummariesForModule (Compute the list of summaries needed for importing into module, called by `llvm-lto.cpp`)
 
 ## Compute all the import and export for every module using the Index.
 ### FunctionImport.cpp
