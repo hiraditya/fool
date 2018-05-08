@@ -42,8 +42,8 @@ to the outside if they are defined in the same source module)
 exported from their source module. Inserts `VI.getGUID()` to `ExportLists`)
 
 ## Build index to be made available during the thin-lto stage
-### ModuleSummaryAnalysis.cpp
-  - buildModuleSummaryIndex (computes function summary, globals summary etc. calls `computeFunctionSummary`)
+### ModuleSummaryAnalysis.cpp (builds a `ModuleSummaryIndex` object for each module, to be written to bitcode)
+  - buildModuleSummaryIndex (computes function summary, globals summary etc. and save into index. Calls `computeFunctionSummary`)
   - computeFunctionSummary (for each global `findRefEdges`, for each callsite in a function update `CallGraphEdges`, calls `addGlobalValueSummary` to attach function summary to `ModuleSummaryIndex`). If we want to add more summaries to a function we can update this function. For making other IPO passes perform cross-module thin-lto, this is the place where we can update summary.
 
 ### FunctionImport.cpp
