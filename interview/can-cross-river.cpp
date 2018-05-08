@@ -22,6 +22,32 @@ can_cross_river("*****  *   * * *  *  *")
 --> True
 */
 
+// * is an object is the space where frog can land on
+// space is like water where frog will sink
+// explore a combination which results in successful crossing of river
+
+/*
+length of river
+islands are the landing points (at the landing point the speed should be within +/-1 of the distance of the next island)
+*/
+
+
+/*
+X~~~...
+"* *"
+ 012
+  
+Speed: 0
+Index: 0
+
+Speed: 1
+Index: 0
+
+Speed: 2
+Index: 2
+
+*/
+
 bool can_cross_river(string islands, string river, int speed = 0) {
   bool success = true;
   int r_pos = 0;
