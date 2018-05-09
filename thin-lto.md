@@ -14,9 +14,9 @@
 ### ThinLTOCodeGenerator.cpp
 For each module
   - ThinLTOCodeGenerator::run (Main driver for the thinlto calls `ProcessThinLTOModule`)
-    - Sequential part:
+    - Sequential part calls:
       - linkCombinedIndex
-      - ComputeCrossModuleImport (collect the import/export lists for all modules from the call-graph in the combined index)
+      - FunctionImport.cpp:ComputeCrossModuleImport (collect the import/export lists for all modules from the call-graph in the combined index, see below)
       - internalizeAndPromoteInIndex (Use global summary-based analysis to identify symbols that can be internalized)
     - Parallel part (optimizer + codegen):
       - loadModuleFromBuffer
@@ -34,7 +34,7 @@ For each module
 
 ## Compute all the import and export for every module using the Index.
 ### FunctionImport.cpp
-  - ComputeCrossModuleImport (Main driver function to import and export symbols based on `ModuleToDefinedGVSummaries`. Computes all the import and export for every module using the `ModuleSummaryIndex`)
+  - ComputeCrossModuleImport (Main driver function to import and export symbols based on `ModuleToDefinedGVSummaries`. Computes all the import and export for every module using the `ModuleSummaryIndex`. Calls `ComputeImportForModule`)
   - ComputeImportForModule (compute the list of imports as well as the list of "exports", calls `computeImportForFunction`)
   - computeImportForFunction (Compute the list of functions to import for a given caller, calls `computeImportForFunctionAlongEdge`. Marks all functions and globals it (the function) references as exported
 to the outside if they are defined in the same source module)
@@ -43,7 +43,7 @@ exported from their source module. Inserts `VI.getGUID()` to `ExportLists`)
 
 ## Build index to be made available during the thin-lto stage
 ### ModuleSummaryAnalysis.cpp (builds a `ModuleSummaryIndex` object for each module, to be written to bitcode)
-  - buildModuleSummaryIndex (computes function summary, globals summary etc. and save into index. Calls `computeFunctionSummary`)
+  - buildModuleSummaryIndex (computes function summary, globals summary etc. and save into index. Calls `computeFunctionSummary`. This is called by `ThinLTOBitcodeWriter.cpp:splitAndWriteThinLTOBitcode`)
   - computeFunctionSummary (for each global `findRefEdges`, for each callsite in a function update `CallGraphEdges`, calls `addGlobalValueSummary` to attach function summary to `ModuleSummaryIndex`). If we want to add more summaries to a function we can update this function. For making other IPO passes perform cross-module thin-lto, this is the place where we can update summary.
 
 ### FunctionImport.cpp
@@ -59,3 +59,9 @@ exported from their source module. Inserts `VI.getGUID()` to `ExportLists`)
 ### ModuleSummaryIndex.cpp
 Collect for each module the list of function it defines (GUID -> Summary).
   - collectDefinedGVSummariesPerModule (iterate over `GlobalValueMap` to populate summary of each GUID)
+
+
+### ThinLTOBitcodeWriter.cpp
+  - WriteThinLTOBitcode is a bitcode writing module level pass that calls `writeThinLTOBitcode`
+  - writeThinLTOBitcode (calls `splitAndWriteThinLTOBitcode`)
+  - splitAndWriteThinLTOBitcode (split M into regular and thin LTO parts. calls `promoteTypeIds` `simplifyExternals`. Calls `buildModuleSummaryIndex` on the Module as well as on the Merged Module. Add ThinLTO flag to the merged module. Writes the module as well as merged module as bitcode.)
