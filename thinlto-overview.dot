@@ -1,0 +1,36 @@
+digraph G{
+"ThinLTOCodeGenerator::run"->linkCombinedIndex
+"ThinLTOCodeGenerator::run"->ComputeCrossModuleImport
+"ThinLTOCodeGenerator::run"->internalizeAndPromoteInIndex
+"ThinLTOCodeGenerator::run"->loadModuleFromBuffer
+"ThinLTOCodeGenerator::run"->saveTempBitcode
+"ThinLTOCodeGenerator::run"->ProcessThinLTOModule
+"ThinLTOCodeGenerator::run"->writeGeneratedObject
+
+crossModuleImport->collectDefinedGVSummariesPerModule
+
+//->gatherImportedSummariesForModule
+
+ComputeCrossModuleImport->	ComputeImportForModule
+ComputeImportForModule->computeImportForFunction
+computeImportForFunction->computeImportForFunctionAlongEdge
+
+//computeImportForReferencedGlobals
+
+buildModuleSummaryIndex->computeFunctionSummary
+computeFunctionSummary->addGlobalValueSummary
+
+doImportingForModule->renameModuleForThinLTO
+doImportingForModule->"FunctionImporter.importFunctions"
+renameModuleForThinLTO->processGlobalsForThinLTO
+
+//->FunctionImporter.importFunctions
+//->collectDefinedGVSummariesPerModule
+
+//ThinLTOBitcodeWriter.cpp
+WriteThinLTOBitcode->writeThinLTOBitcode
+writeThinLTOBitcode->splitAndWriteThinLTOBitcode
+splitAndWriteThinLTOBitcode->promoteTypeIds
+splitAndWriteThinLTOBitcode->simplifyExternals
+splitAndWriteThinLTOBitcode->buildModuleSummaryIndex
+}
