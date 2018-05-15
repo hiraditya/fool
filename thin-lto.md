@@ -15,7 +15,7 @@
 For each module
   - ThinLTOCodeGenerator::run (Main driver for the thinlto calls `ProcessThinLTOModule`)
     - Sequential part calls:
-      - linkCombinedIndex
+      - linkCombinedIndex (Collects the information from all the indexes to create a single ModuleSummaryIndex. This should be populated for relevant information which we want to access during the thin-lto optimization phase) 
       - FunctionImport.cpp:ComputeCrossModuleImport (collect the import/export lists for all modules from the call-graph in the combined index, see below)
       - internalizeAndPromoteInIndex (Use global summary-based analysis to identify symbols that can be internalized)
     - Parallel part (optimizer + codegen):
@@ -65,3 +65,11 @@ Collect for each module the list of function it defines (GUID -> Summary).
   - WriteThinLTOBitcode is a bitcode writing module level pass that calls `writeThinLTOBitcode`
   - writeThinLTOBitcode (calls `splitAndWriteThinLTOBitcode`)
   - splitAndWriteThinLTOBitcode (split M into regular and thin LTO parts. calls `promoteTypeIds` `simplifyExternals`. Calls `buildModuleSummaryIndex` on the Module as well as on the Merged Module. Add ThinLTO flag to the merged module. Writes the module as well as merged module as bitcode.)
+
+
+The summary is read by BitCodeReader
+### BitCodeReader.cpp
+  - parseModule(uint64_t ResumeBit, bool ShouldLazyLoadMetadata calls parseFunctionRecord:3306
+  - parseModule() calls parseEntireSummary:4980
+  - parseFunctionRecord
+  - parseEntireSummary calls
