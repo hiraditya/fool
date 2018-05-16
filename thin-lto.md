@@ -36,7 +36,7 @@ For each module
 ### FunctionImport.cpp
   - ComputeCrossModuleImport (Main driver function to import and export symbols based on `ModuleToDefinedGVSummaries`. Computes all the import and export for every module using the `ModuleSummaryIndex`. Calls `ComputeImportForModule`)
   - ComputeImportForModule (compute the list of imports as well as the list of "exports", calls `computeImportForFunction`)
-  - computeImportForFunction (Compute the list of functions to import for a given caller, calls `computeImportForFunctionAlongEdge`. Marks all functions and globals it (the function) references as exported
+  - computeImportForFunction (Compute the list of functions to import for a given caller. Marks all functions and globals it (the function) references as exported
 to the outside if they are defined in the same source module)
   - computeImportForReferencedGlobals (Mark these imported functions and the symbols they reference in their source module as
 exported from their source module. Inserts `VI.getGUID()` to `ExportLists`)
