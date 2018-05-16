@@ -13,7 +13,6 @@ crossModuleImport->collectDefinedGVSummariesPerModule
 
 ComputeCrossModuleImport->	ComputeImportForModule
 ComputeImportForModule->computeImportForFunction
-computeImportForFunction->computeImportForFunctionAlongEdge
 
 //computeImportForReferencedGlobals
 
