@@ -27,9 +27,9 @@ For each module
       - promoteModule
       - thinLTOResolveWeakForLinkerModule
       - thinLTOInternalizeModule (run internalization based on summary analysis, change symbol visibility to preserve/drop)
-      - crossImportIntoModule (imports function using `FunctionImporter` by calling `FunctionImporter::importFunctions`)
+      - crossImportIntoModule (imports function populated in ImportList for TheModule by calling `FunctionImporter::importFunctions`)
       - optimizeModule
-  - crossModuleImport (called by `llvm-lto.cpp` Perform cross-module importing for the module identified by `ModuleIdentifier`, calls `ModuleSummaryIndex::collectDefinedGVSummariesPerModule`, `FunctionImport::ComputeCrossModuleImport` and `crossImportIntoModule`)
+  - crossModuleImport (Not interesting for thinlto. It is called by `llvm-lto.cpp` Perform cross-module importing for the module identified by `ModuleIdentifier`, calls `ModuleSummaryIndex::collectDefinedGVSummariesPerModule`, `FunctionImport::ComputeCrossModuleImport` and `crossImportIntoModule`)
   - gatherImportedSummariesForModule (Compute the list of summaries needed for importing into module, called by `llvm-lto.cpp`)
 
 ## Compute all the import and export for every module using the Index.
