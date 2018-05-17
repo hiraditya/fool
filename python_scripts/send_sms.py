@@ -1,3 +1,5 @@
+import way2sms
+import time
 
 '''
 160by2
@@ -16,12 +18,27 @@ import urllib2
         print "Message sent successfully"
 '''
 
+def send_sms(phone, passwd, to_send):
+    q.send(to_send, "newsinsearch.com is the site for latest entertainment updates, thanks!")
+    n=q.msgSentToday()
+
 # 10 digit phone numbers in India
-phone='1234533453'
-passwd='passwd'
-to_send='4564562342'
-import way2sms
+phone=''
+passwd=''
+to_send=''
+
+fname='parsed_phone_numbers.txt'
+
+with open(fname) as f:
+        content = f.readlines()
+
+# strip whitespace
+content = [x.strip() for x in content]
 q=way2sms.sms(phone, passwd)
-q.send(to_send, "testing message")
-n=q.msgSentToday()
+
+for i in content:
+    print (i)
+    send_sms(phone,passwd,i)
+    time.sleep(5)
+
 q.logout()
