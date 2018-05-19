@@ -19,6 +19,9 @@ datalab create mydatalabvm --zone <ZONE>
 In Cloud Datalab home page (browser), navigate into "notebooks" and add a new notebook using the icon on the top left.
 
 In the new notebook, enter the following commands in the cell, and click on Run (on the top navigation bar) to run the commands:
+
+```
   %bash
   git clone https://github.com/GoogleCloudPlatform/training-data-analyst
   rm -rf training-data-analyst/.git
+```
