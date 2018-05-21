@@ -1,8 +1,9 @@
 # Datasets can be created from different file formats.
   - They generate input funciton for estimators
   - Datasets handle shuffling, epochs, batching ...
+  - They offer rich API for working on and transforming the data.
 
-Note: tf.commands do not execute any command. They only create a graph in memory which gets executed during training/inference.
+Note: `tf.commands` do not execute any command. They only create a graph in memory which gets executed during training/inference.
 
 Input functions are called when a model is instantiated.
   - It is not called everytime the model needs data.
@@ -10,8 +11,8 @@ Input functions are called when a model is instantiated.
   - They are not expected to return any actual data.
   - They only return nodes, and these nodes return data when they are executed.
   - Arbitrarily complex function can be put in the input functions as long as they are supposed to execute only once.
-  
-```
+
+```python
   def decode_line(row):
     # Decode the row as a csv. with the defaults for each column stated as follows.
     cols = tf.decode_csv(row, record_defaults=[[0], "house", [0]])
