@@ -17,11 +17,11 @@ tf.estimator.DNNLinearCombinedClassifier
 
 ## Feature column
 Tells the model what inputs to expect for e.g.,
-  - Numeric column (tf.feature_column.numeric_column("sq_footage")
-  - Categorical column (tf.feature_column.categorical_column_with_vocabulary_list("type", ["house", "apartment"])
+  - Numeric column (`tf.feature_column.numeric_column("sq_footage")`)
+  - Categorical column (`tf.feature_column.categorical_column_with_vocabulary_list("type", ["house", "apartment"])`)
 
 Under the hood, feature column takes care of packing the inputs into the input vector of the model.
-Both numpy arrays and pandas dataframes can be passed as feature columns.
+Both *numpy arrays* and *pandas dataframes* can be passed as feature columns.
 
 
 # Training
