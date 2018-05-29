@@ -69,4 +69,10 @@ Note: Checkpointing is the default behavior. To disable checkpointing, remove/re
 tf.estimator.LinearRegressor(featcols, '/path/to/checkpointing_folder')
 ```
 
-
+# Recap of common APIs.
+  - tf.estimator.RunConfig
+  - tf.estimator.LinearRegressor
+  - tf.estimator.TrainSpec
+  - tf.estimator.LatestExplorer
+  - tf.estimator.EvalSpec
+  - tf.estimator.train_and_evaluate
