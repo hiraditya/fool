@@ -44,6 +44,9 @@ model.train(train_input_fn, steps=100)
 `steps` parameter runs #steps additional steps from the last checkpoint
 `max_steps` runs only remaining steps from the last checkpoint. This can potentially return without running.
 
+*For distributed training, data shuffling is very important because you don't want to feed the same data to different compute-units.
+
+
 # Prediction
 Model once trained can be used for prediction. The predict function in the model API
 
