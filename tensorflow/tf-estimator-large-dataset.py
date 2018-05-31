@@ -1,4 +1,7 @@
 '''
+ git repo:
+ clone https://github.com/GoogleCloudPlatform/training-data-analyst
+
  2c. Loading large datasets progressively with the tf.data.Dataset
 
 In this notebook, we continue reading the same small dataset, but refactor our ML pipeline in two small, but significant, ways:
