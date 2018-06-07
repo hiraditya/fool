@@ -106,10 +106,13 @@ def train_and_evaluate(output_dir, num_train_steps):
   estimator = tf.estimator.LinearRegressor(
                        model_dir = output_dir,
                        feature_columns = feature_cols)
+  # Plugin train input function which is returned from read_dataset.
   train_spec=tf.estimator.TrainSpec(
                        input_fn = read_dataset('./taxi-train.csv', mode = tf.estimator.ModeKeys.TRAIN),
                        max_steps = num_train_steps)
+  # Exporter needs to know the serving input function.
   exporter = tf.estimator.LatestExporter('exporter', serving_input_fn)
+  # Evaluations and Export only happen after checkpoing, so exporter is passed here.
   eval_spec=tf.estimator.EvalSpec(
                        input_fn = read_dataset('./taxi-valid.csv', mode = tf.estimator.ModeKeys.EVAL),
                        steps = None,
@@ -123,3 +126,18 @@ def train_and_evaluate(output_dir, num_train_steps):
 
 Use "refresh" in Tensorboard during training to see progress.
 '''
+OUTDIR = 'taxi_trained'
+TensorBoard().start(OUTDIR)
+
+'''
+Run training
+'''
+shutil.rmtree(OUTDIR, ignore_errors = True) # start fresh each time
+train_and_evaluate(OUTDIR, num_train_steps = 2000)
+
+'''
+You can now shut Tensorboard down 
+'''
+# to stop TensorBoard fill the correct pid below
+TensorBoard().stop(27855)
+print("Stopped Tensorboard")
