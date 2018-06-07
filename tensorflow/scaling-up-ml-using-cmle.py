@@ -31,3 +31,26 @@ PROJECT = 'cloud-training-demos' # REPLACE WITH YOUR PROJECT ID
 BUCKET = 'cloud-training-demos-ml' # REPLACE WITH YOUR BUCKET NAME
 REGION = 'us-central1' # REPLACE WITH YOUR BUCKET REGION e.g. us-central1
 
+# for bash
+os.environ['PROJECT'] = PROJECT
+os.environ['BUCKET'] = BUCKET
+os.environ['REGION'] = REGION
+os.environ['TFVERSION'] = '1.7'  # Tensorflow version
+
+%bash
+gcloud config set project $PROJECT
+gcloud config set compute/region $REGION
+
+%bash
+PROJECT_ID=$PROJECT
+AUTH_TOKEN=$(gcloud auth print-access-token)
+SVC_ACCOUNT=$(curl -X GET -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $AUTH_TOKEN" \
+    https://ml.googleapis.com/v1/projects/${PROJECT_ID}:getConfig \
+    | python -c "import json; import sys; response = json.load(sys.stdin); \
+    print response['serviceAccount']")
+
+echo "Authorizing the Cloud ML Service account $SVC_ACCOUNT to access files in $BUCKET"
+gsutil -m defacl ch -u $SVC_ACCOUNT:R gs://$BUCKET
+gsutil -m acl ch -u $SVC_ACCOUNT:R -r gs://$BUCKET  # error message (if bucket is empty) can be ignored
+gsutil -m acl ch -u $SVC_ACCOUNT:W gs://$BUCKET
