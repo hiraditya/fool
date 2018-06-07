@@ -161,7 +161,7 @@ gcloud ml-engine jobs submit training $JOBNAME \
    --train_steps=10000
 
 Job [lab3a_180607_192245] submitted successfully.
-Your job is still active. You may view the status of your job with the command
+Your job is still active. You may view the status of your job with the command (on google cloud consile)
 
   $ gcloud ml-engine jobs describe lab3a_180607_192245
 
