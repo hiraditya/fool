@@ -54,3 +54,58 @@ echo "Authorizing the Cloud ML Service account $SVC_ACCOUNT to access files in $
 gsutil -m defacl ch -u $SVC_ACCOUNT:R gs://$BUCKET
 gsutil -m acl ch -u $SVC_ACCOUNT:R -r gs://$BUCKET  # error message (if bucket is empty) can be ignored
 gsutil -m acl ch -u $SVC_ACCOUNT:W gs://$BUCKET
+
+'''
+ Packaging up the code
+
+Take your code and put into a standard Python package structure. model.py and task.py contain the Tensorflow code from earlier (explore the directory structure).
+'''
+!find taxifare
+!cat taxifare/trainer/model.py
+
+'''
+Find absolute paths to your data
+Note the absolute paths below. /content is mapped in Datalab to where the home icon takes you
+'''
+%bash
+echo $PWD
+rm -rf $PWD/taxi_trained
+head -1 $PWD/taxi-train.csv
+head -1 $PWD/taxi-valid.csv
+'''
+Running the Python module from the command-line 
+'''
+%bash
+rm -rf taxifare.tar.gz taxi_trained
+export PYTHONPATH=${PYTHONPATH}:${PWD}/taxifare
+python -m trainer.task \
+   --train_data_paths="${PWD}/taxi-train*" \
+   --eval_data_paths=${PWD}/taxi-valid.csv  \
+   --output_dir=${PWD}/taxi_trained \
+   --train_steps=1000 --job-dir=./tmp
+
+%bash
+ls $PWD/taxi_trained/export/exporter/
+
+%writefile ./test.json
+{"pickuplon": -73.885262,"pickuplat": 40.773008,"dropofflon": -73.987232,"dropofflat": 40.732403,"passengers": 2}
+
+%bash
+model_dir=$(ls ${PWD}/taxi_trained/export/exporter)
+gcloud ml-engine local predict \
+    --model-dir=${PWD}/taxi_trained/export/exporter/${model_dir} \
+    --json-instances=./test.json
+
+'''
+    Running locally using gcloud
+'''
+%bash
+rm -rf taxifare.tar.gz taxi_trained
+gcloud ml-engine local train \
+   --module-name=trainer.task \
+   --package-path=${PWD}/taxifare/trainer \
+   -- \
+   --train_data_paths=${PWD}/taxi-train.csv \
+   --eval_data_paths=${PWD}/taxi-valid.csv  \
+   --train_steps=1000 \
+   --output_dir=${PWD}/taxi_trained
