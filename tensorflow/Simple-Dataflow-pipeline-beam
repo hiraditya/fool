@@ -1,0 +1,2 @@
+gsutil cp -r ../javahelp/src/main/java/com/google/cloud/tra
+ining/dataanalyst/javahelp gs://qwiklabs-gcp-f6328e053f66c4701/
