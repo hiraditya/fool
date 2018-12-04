@@ -1,4 +1,4 @@
-== Lab: Neural Networks Playground
+## Lab: Neural Networks Playground
 
 Solve each of these three problems in two ways: one by feature engineering, the other by adding layers. Access each of the TensorFlow Playground links below and then return to this video for a walkthrough.
 
