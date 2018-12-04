@@ -159,3 +159,8 @@ INFO:tensorflow:Running training and evaluation locally (non-distributed).
 INFO:tensorflow:Start train and evaluate loop. The evaluate will happen after 10 secs (eval_spec.throttle_secs) or training is finished.
 INFO:tensorflow:Saving dict for global step 13474: average_loss = 0.40677336, global_step = 13474, loss = 1434.2828, rmse = 63778.78
 '''
+
+from google.datalab.ml import TensorBoard
+pid = TensorBoard().start(OUTDIR)
+# After visualizing is complete call this API to stop TensorBoard
+TensorBoard().stop(pid)
