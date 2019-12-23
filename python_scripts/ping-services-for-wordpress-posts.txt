@@ -1,3 +1,4 @@
+https://feedshark.brainbliss.com # Manually enter the blog
 http://1470.net/api/ping
 http://a2b.cc/setloc/bp.a2b
 http://api.feedster.com/ping
