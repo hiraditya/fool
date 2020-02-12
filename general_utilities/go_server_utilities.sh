@@ -74,3 +74,8 @@ server {
   sudo nginx -s reload
 }
 
+change_user_access() {
+  # To prevent 'others' from accessing a directory, the following will disallow 'others' to accesss hindisiksha
+  # owners have full access, group have read+exe access, others no access.
+  sudo chmod 750 -R hindisiksha
+}
