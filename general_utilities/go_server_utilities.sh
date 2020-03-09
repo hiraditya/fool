@@ -79,3 +79,16 @@ change_user_access() {
   # owners have full access, group have read+exe access, others no access.
   sudo chmod 750 -R hindisiksha
 }
+
+
+
+setup_cloudflare_ssl_with_nginx() {
+# https://www.digitalocean.com/community/tutorials/how-to-host-a-website-using-cloudflare-and-nginx-on-ubuntu-16-04
+# Add the key here: /etc/ssl/certs/cloudflare-key.pem
+# Add the certificate here: /etc/ssl/certs/cloudflare-certs.pem
+# https://support.cloudflare.com/hc/en-us/articles/115000479507-Managing-Cloudflare-Origin-CA-certificates#h_30cc332c-8f6e-42d8-9c59-6c1f06650639
+# Download origin-pull-ca.pem from here. If the file does not exist here then search for origin-pull-ca.pem on cloudflare website
+# https://support.cloudflare.com/hc/en-us/articles/204899617-Authenticated-Origin-Pulls
+# Add the origin-pull-ca.pem here: /etc/ssl/certs/cloudflare.crt
+}
+
