@@ -78,6 +78,9 @@ change_user_access() {
   # To prevent 'others' from accessing a directory, the following will disallow 'others' to accesss hindisiksha
   # owners have full access, group have read+exe access, others no access.
   sudo chmod 750 -R hindisiksha
+  # change user:group on a folder
+  sudo chown -R toolchains:toolchains bitsimplify
+  sudo chown -R pmangal:bitsimplify_group sankalp
 }
 
 
