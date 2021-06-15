@@ -34,3 +34,10 @@ How to measure overhead of static initializers then:
   - To remove the overhead of `_start` we can define our own `_start` function. and use `-nostartfiles` compiler flag.
   - We can also remove `_start` by passing `--entry=my_start_function` to the compiler. This tells compiler to use `my_start_function` as entry point.
 - One trick we can do is, have another constructor with 65536 priority, which is +1 than the lowest priority (65535). And measure the time delta this way.
+
+Useful concepts in this area:
+- .init_array
+- .init or .ctors
+- llvm.global_ctors section
+- llvm source code CodeGenModule.cpp:EmitCtorList,AddGlobalCtor
+- Linker script can also help put functions in the right section or init array.
