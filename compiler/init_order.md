@@ -41,3 +41,5 @@ Useful concepts in this area:
 - llvm.global_ctors section
 - llvm source code CodeGenModule.cpp:EmitCtorList,AddGlobalCtor
 - Linker script can also help put functions in the right section or init array.
+- http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html
+- https://stackoverflow.com/questions/29502614/how-libc-start-mainplt-works
