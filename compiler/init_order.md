@@ -50,7 +50,7 @@ How to measure overhead of static initializers then:
   - This does include the overhead of `_start` though.
   - To remove the overhead of `_start` we can define our own `_start` function. and use `-nostartfiles` compiler flag.
   - We can also remove `_start` by passing `--entry=my_start_function` to the compiler. This tells compiler to use `my_start_function` as entry point.
-- One trick we can do is, have another constructor with 65536 priority, which is +1 than the lowest priority (65535). And measure the time delta this way.
+- One trick we can do is, have another constructor with 65536 priority, which is +1 than the lowest priority (65535). And measure the time delta this way. This approach is buggy as any constructor with a priority value is guaranteed to run **before** all constructors without a prority.
 
 Useful concepts in this area:
 - .init_array
