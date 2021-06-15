@@ -4,6 +4,8 @@ Use attribute constructor to specify the priority.
 
 ```c
 
+#include <cstdio>
+
 struct test {
     test(int x) {
         printf("i am constructed! %d\n", x);
@@ -18,9 +20,24 @@ __attribute__((constructor(0))) void ctest() {
 
 __attribute__((init_priority(101))) test test2{2};
 
-int main() {
+__attribute__((init_priority(101))) test test3{2};
 
+__attribute__((constructor(65536))) void ctest1() {
+    printf("i am also constructed later!\n");
 }
+
+int main() {
+printf("i am constructed in main\n");
+}
+
+/** Output:
+i am also constructed!
+i am constructed! 2
+i am constructed! 2
+i am also constructed later!
+i am constructed! 1
+i am constructed in main
+*/
 ```
 
 Is main called immediately after the static initializers are done?
